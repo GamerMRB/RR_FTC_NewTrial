@@ -25,7 +25,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected DcMotorEx frontRight;
     protected DcMotorEx backLeft;
     protected DcMotorEx backRight;
-    protected DcMotorEx intake;
+
     protected DcMotorEx armMotor1;
     protected DcMotorEx armMotor2;
     protected double posX;
@@ -43,17 +43,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected static WebcamName camera3;
     protected static VisionPortal visionPortal;
     protected static VisionPortal visionPortal2;
-
-    protected DigitalChannel lightFLR;
-    protected DigitalChannel lightFLG;
-    protected DigitalChannel lightFRR;
-    protected DigitalChannel lightFRG;
-    protected DigitalChannel lightBLR;
-    protected DigitalChannel lightBLG;
-    protected DigitalChannel lightBRR;
-    protected DigitalChannel lightBRG;
-
-
+    protected static VisionPortal visionPortal3;
 
     protected Servo clawServo1;
     protected Servo clawServo2;
@@ -87,17 +77,11 @@ public abstract class UscOpMode extends LinearOpMode {
         if (drivetrain){
             setUpDrivetrain();
         }
-//        if(cameras){
-//            setUpCameras();
-//        }
         if(arm){
             setUpArm();
         }
         if(claw){
             setUpClaw();
-        }
-        if(intake){
-            setUpIntake();
         }
         if(launch){
             setUpAirplane();
@@ -148,34 +132,13 @@ public abstract class UscOpMode extends LinearOpMode {
         clawServo2 = hardwareMap.get(Servo. class, "clawServo2");
         clawRotation = hardwareMap.get(Servo.class, "clawRotation");
     }
-    public void setUpIntake(){
-        intake = hardwareMap.get(DcMotorEx.class, "intake");
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-    }
     public void setUpAirplane(){
         planeLauncher = hardwareMap.get(Servo.class, "launcher");
         planeLauncher.setPosition(AIRPLANE_HOLD_POS);
         planeArmed = false;
     }
-    public void setUpLights(){
-        lightFLR = hardwareMap.get(DigitalChannel.class, "FLR");
-        lightFLG = hardwareMap.get(DigitalChannel.class, "FLG");
-        lightFRR = hardwareMap.get(DigitalChannel.class, "FRR");
-        lightFRG = hardwareMap.get(DigitalChannel.class, "FRG");
-        lightBLR = hardwareMap.get(DigitalChannel.class, "BLR");
-        lightBLG = hardwareMap.get(DigitalChannel.class, "BLG");
-        lightBRR = hardwareMap.get(DigitalChannel.class, "BRR");
-        lightBRG = hardwareMap.get(DigitalChannel.class, "BRG");
-        lightFLR.setMode(DigitalChannel.Mode.OUTPUT);
-        lightFLG.setMode(DigitalChannel.Mode.OUTPUT);
-        lightFRR.setMode(DigitalChannel.Mode.OUTPUT);
-        lightFRG.setMode(DigitalChannel.Mode.OUTPUT);
-        lightBLR.setMode(DigitalChannel.Mode.OUTPUT);
-        lightBLG.setMode(DigitalChannel.Mode.OUTPUT);
-        lightBRR.setMode(DigitalChannel.Mode.OUTPUT);
-        lightBRG.setMode(DigitalChannel.Mode.OUTPUT);
-    }
+
     public void runOpMode() throws InterruptedException {
     }
 
@@ -248,29 +211,7 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    protected void setLights(boolean red, boolean grn){
-        lightBLR.setState(!red);
-        lightBLG.setState(!grn);
-        lightBRR.setState(!red);
-        lightBRG.setState(!grn);
-        lightFLG.setState(!grn);
-        lightFLR.setState(!red);
-        lightFRG.setState(!grn);
-        lightFRR.setState(!red);
-    }
-    protected void setFrontLights(boolean red, boolean grn){
-        lightFLG.setState(!grn);
-        lightFLR.setState(!red);
-        lightFRG.setState(!grn);
-        lightFRR.setState(!red);
-    }
-    protected void setBackLights(boolean red, boolean grn){
-        lightBLR.setState(!red);
-        lightBLG.setState(!grn);
-        lightBRR.setState(!red);
-        lightBRG.setState(!grn);
-    }
-    protected void motorsRight() {
+       protected void motorsRight() {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
