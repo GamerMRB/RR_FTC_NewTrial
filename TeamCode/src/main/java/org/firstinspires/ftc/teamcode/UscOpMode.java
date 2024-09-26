@@ -17,6 +17,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public abstract class UscOpMode extends LinearOpMode {
@@ -36,7 +38,12 @@ public abstract class UscOpMode extends LinearOpMode {
     protected double posY;
     protected int currentArmPosition;
 
-
+    protected final Vec2 april11 = Vec2.xy(-48, -72);
+    protected final Vec2 april12 = Vec2.xy(-72, 0);
+    protected final Vec2 april13 = Vec2.xy(-48, 72);
+    protected final Vec2 april14 = Vec2.xy(48, 72);
+    protected final Vec2 april15 = Vec2.xy(72, 0);
+    protected final Vec2 april16 = Vec2.xy(48, -72);
 
     protected static WebcamName camera1;
     protected static WebcamName camera2;
