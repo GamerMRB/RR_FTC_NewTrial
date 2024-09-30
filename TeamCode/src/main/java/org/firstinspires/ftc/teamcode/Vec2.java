@@ -54,7 +54,6 @@ public class Vec2 {
     public Vec2 perp(){
         return Vec2.xy(-y, x);
     }
-
     public Vec2 add(Vec2 v){
         return Vec2.xy(x + v.x, y + v.y);
     }
@@ -101,13 +100,19 @@ public class Vec2 {
         return x * s + y * s;
     }
     public double cross(Vec2 v){
-        return x * v.x - y * v.y;
+        return x * v.y - y * v.x;
     }
     public double cross(double vx, double vy){
-        return x * vx - y * vy;
+        return x * vy - y * vx;
     }
     public double cross(double s){
         return x * s - y * s;
+    }
+    public Vec3 crossV3(Vec2 v){
+        return Vec3.xyz(0, 0, x * v.y - y * v.x);
+    }
+    public Vec3 xy0(){
+        return Vec3.xyz(x, y, 0);
     }
     public double angle(Vec2 v){
         return dot(v)/mag()/v.mag();
@@ -116,6 +121,6 @@ public class Vec2 {
         return dot(vx, vy)/mag()/Math.sqrt(vx*vx + vy*vy);
     }
     public double angle(double s){
-        return dot(s, s)/mag()/s;
+        return dot(s, s)/mag()/(Math.sqrt(2) * s);
     }
 }
