@@ -116,4 +116,7 @@ public class Vec3 {
     public double angle(double s){
         return dot(s, s, s)/mag()/(Math.sqrt(3) * s);
     }
+    public Vec3 proj(Vec3 v){
+        return (v.mult(this.dot(v)/ dot(this)));
+    }
 }
