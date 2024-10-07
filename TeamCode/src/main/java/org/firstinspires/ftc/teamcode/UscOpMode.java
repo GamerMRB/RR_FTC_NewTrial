@@ -35,6 +35,9 @@ public abstract class UscOpMode extends LinearOpMode {
     protected static VisionPortal visionPortal2;
     protected static VisionPortal visionPortal3;
 
+    protected Vec3 robotPos;
+    protected Vec3 robotDirection;
+
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     protected final double TICKS_PER_REVOLUTION = 538;
