@@ -72,14 +72,10 @@ public abstract class UscOpMode extends LinearOpMode {
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
                 // calculate robot relative position
-                double tagX = detection.metadata.fieldPosition.get(0);
-                double tagY = detection.metadata.fieldPosition.get(1);
-                double tagZ = detection.metadata.fieldPosition.get(2);
-                double camX = detection.ftcPose.x;
-                double camY = detection.ftcPose.y;
-                double camZ = detection.ftcPose.z;
+                Position tag = new Position(Vec2.xy(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1)), 0);
+                Position cam = tag.sub(new Position(Vec2.xy(detection.ftcPose.x, detection.ftcPose.y), detection.ftcPose.yaw));
 
-                pos = pos.add();
+//                pos = pos.add();
             }
 
             tagCount += detections.size();

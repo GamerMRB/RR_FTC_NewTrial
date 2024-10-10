@@ -13,7 +13,7 @@ public class Vec2 {
     private double mag;
 
     private boolean angleCalculated = false;
-    private double angle;
+    private double angleDiff;
 
     private Vec2(double xIn, double yIn){
         x = xIn;
@@ -43,10 +43,13 @@ public class Vec2 {
 
     public double angle(){
         if(!angleCalculated){
-            angle = Math.atan2(y, x);
+            angleDiff = Math.atan2(y, x);
             angleCalculated = true;
         }
-        return angle;
+        return angleDiff;
+    }
+    public Vec2 rotate(double angle){
+        return Vec2.polar(mag(), angle() + angle);
     }
 
     public Vec2 unit(){

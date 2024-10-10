@@ -7,4 +7,10 @@ public class Position {
         disp = dispIn;
         rot = rotIn;
     }
+    public Position add(Position pos){
+        return new Position(disp.add(pos.disp.rotate(rot)), rot + pos.rot);
+    }
+    public Position sub(Position pos){
+        return new Position(disp.sub(pos.disp.rotate(rot - pos.rot)), rot - pos.rot);
+    }
 }
