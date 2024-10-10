@@ -28,6 +28,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected DcMotorEx backLeft;
     protected DcMotorEx backRight;
 
+    protected static Camera[] cameras = {
+    };
     protected static WebcamName camera1;
     protected static WebcamName camera2;
     protected static WebcamName camera3;
@@ -50,11 +52,42 @@ public abstract class UscOpMode extends LinearOpMode {
     protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
     protected final double MIN_ARM_LENGTH = 10.375;
 
-    public void setUpHardware(boolean drivetrain, boolean cameras, boolean arm, boolean claw, boolean intake, boolean launch){
-        if (drivetrain){
-            setUpDrivetrain();
-        }
+
+    public void setUpHardware(){
+        setUpDrivetrain();
+        setUpCameras();
     }
+
+    public void setUpCameras(){
+        cameras = new Camera[]{
+                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
+                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 2")),
+                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 3")),
+        };
+    }
+    public Vec2 getPos(){
+        Vec2 pos = Vec2.zero;
+        long tagCount = 0;
+        for(Camera camera : cameras){
+            ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
+            for(AprilTagDetection detection : detections){
+                // calculate robot relative position
+                double tagX = detection.metadata.fieldPosition.get(0);
+                double tagY = detection.metadata.fieldPosition.get(1);
+                double tagZ = detection.metadata.fieldPosition.get(2);
+                double camX = detection.ftcPose.x;
+                double camY = detection.ftcPose.y;
+                double camZ = detection.ftcPose.z;
+
+                pos = pos.add();
+            }
+
+            tagCount += detections.size();
+        }
+        pos.div(tagCount);
+        return pos;
+    }
+
     public void setUpDrivetrain() {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 3
         backRight = hardwareMap.get(DcMotorEx.class, "backRight"); // Motor 2

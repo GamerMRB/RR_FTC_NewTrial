@@ -4,6 +4,7 @@ public class Vec2 {
 
     public static final Vec2 i = new Vec2(1, 0);
     public static final Vec2 j = new Vec2(0, 1);
+    public static final Vec2 zero = new Vec2(0, 0);
 
     public final double x;
     public final double y;
