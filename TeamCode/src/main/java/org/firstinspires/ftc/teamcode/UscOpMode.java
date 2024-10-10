@@ -266,7 +266,7 @@ public abstract class UscOpMode extends LinearOpMode {
         clawPos = pivotPos.add(Vec3.v2z(robotDirection.mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
     }
     protected void moveClawTo(Vec3 target){
-
+    // needs movement code first
     }
 
     // Visualization of scaling functions: https://www.desmos.com/calculator/attwysf9bd
