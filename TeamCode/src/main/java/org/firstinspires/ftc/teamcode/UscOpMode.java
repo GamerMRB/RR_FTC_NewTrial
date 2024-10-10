@@ -35,15 +35,20 @@ public abstract class UscOpMode extends LinearOpMode {
     protected static VisionPortal visionPortal2;
     protected static VisionPortal visionPortal3;
 
-    protected Vec3 robotPos;
-    protected Vec3 robotDirection;
+    protected Vec2 robotPos;
+    protected Vec2 robotDirection;
+    protected Vec3 clawPos;
+    protected double armAngle;
+    protected double armLength;
 
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     protected final double TICKS_PER_REVOLUTION = 538;
     protected final double SPEED_MAX = 1.0;
     protected final double STRAFE_SPEED = 0.75;
-
+    protected final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
+    protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
+    protected final double MIN_ARM_LENGTH = 10.375;
 
     public void setUpHardware(boolean drivetrain, boolean cameras, boolean arm, boolean claw, boolean intake, boolean launch){
         if (drivetrain){
@@ -59,6 +64,11 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setZeroPowerBehavior(BRAKE);
         frontRight.setZeroPowerBehavior(BRAKE);
         frontLeft.setZeroPowerBehavior(BRAKE);
+
+    }
+    public void setUpArm(){
+        armAngle = INITIAL_ARM_ANGLE;
+        armLength = MIN_ARM_LENGTH;
 
     }
 
@@ -252,9 +262,17 @@ public abstract class UscOpMode extends LinearOpMode {
         }
     }
 
+    protected void calculateClaw(){
+        clawPos = pivotPos.add(Vec3.v2z(robotDirection.mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
+    }
+    protected void moveClawTo(Vec3 target){
+
+    }
+
     // Visualization of scaling functions: https://www.desmos.com/calculator/attwysf9bd
 
     protected double scaleMovement(double vIn){
         return Math.pow(Math.sin((Math.PI * vIn) / 2), 3);
     }
+
 }
