@@ -198,7 +198,7 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setMotorEnable();
     }
 
-    protected void moveToPosition(Vec2 target){
+    protected void moveTo(Vec2 target){
         Vec2 diff = target.sub(robotPos.disp).unit();
         double angle;
         double sin;
@@ -215,6 +215,12 @@ public abstract class UscOpMode extends LinearOpMode {
             updatePos();
         }
         setPower(0);
+    }
+    protected void rotateTo(Vec2 target){
+
+    }
+    protected void rotateTo(double angle){
+
     }
 
     protected void turnLeft(double degrees, double velocity) {
