@@ -64,7 +64,7 @@ public abstract class UscOpMode extends LinearOpMode {
                 Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 3")),
         };
     }
-    public void calculatePos(){
+    public void updatePos(){
         Vec2 pos = Vec2.zero;
         Vec2 dir = Vec2.zero;
         long tagCount = 0;
