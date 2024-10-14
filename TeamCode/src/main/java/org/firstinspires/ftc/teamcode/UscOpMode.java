@@ -122,6 +122,12 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    protected void setPower(double power){
+        frontLeft.setPower(power);
+        backLeft.setPower(power);
+        frontRight.setPower(power);
+        backRight.setPower(power);
+    }
     protected void setVelocity(double velocity) {
         frontLeft.setVelocity(velocity);
         backLeft.setVelocity(velocity);
@@ -190,6 +196,27 @@ public abstract class UscOpMode extends LinearOpMode {
         frontRight.setMotorEnable();
         backLeft.setMotorEnable();
         backRight.setMotorEnable();
+    }
+
+    protected void moveToPosition(Vec2 target){
+        Vec2 diff;
+        double angle;
+        double sin;
+        double cos;
+        while (robotPos.disp.x != target.x + 1.5 && robotPos.disp.y != target.y + 1.5 ||
+                robotPos.disp.x != target.x - 1.5 && robotPos.disp.y != target.y + 1.5 ||
+                robotPos.disp.x != target.x + 1.5 && robotPos.disp.y != target.y - 1.5 ||
+                robotPos.disp.x != target.x - 1.5 && robotPos.disp.y != target.y - 1.5) {
+            diff = target.sub(robotPos.disp).unit();
+            angle = diff.angle(robotPos.rot);
+            sin = Math.sin(angle);
+            cos = Math.cos(angle);
+            frontLeft.setPower(sin + cos);
+            frontRight.setPower(cos - sin);
+            backLeft.setPower(cos - sin);
+            backRight.setPower(sin + cos);
+        }
+        setPower(0);
     }
 
     protected void turnLeft(double degrees, double velocity) {
@@ -290,11 +317,12 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
     protected void calculateClaw(){
-        clawPos = pivotPos.add(Vec3.v2z(robotDirection.mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
+        clawPos = pivotPos.add(Vec3.v2z(robotPos.dir().mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
     }
     protected void moveClawTo(Vec3 target){
     // needs movement code first
     }
+
 
     // Visualization of scaling functions: https://www.desmos.com/calculator/attwysf9bd
 
