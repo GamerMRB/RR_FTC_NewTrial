@@ -37,8 +37,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected VisionPortal visionPortal2;
     protected VisionPortal visionPortal3;
 
-    protected Vec2 robotPos;
-    protected Vec2 robotDirection;
+    protected Position robotPos;
     protected Vec3 clawPos;
     protected double armAngle;
     protected double armLength;
@@ -65,7 +64,7 @@ public abstract class UscOpMode extends LinearOpMode {
                 Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 3")),
         };
     }
-    public Position calculatePos(){
+    public void calculatePos(){
         Vec2 pos = Vec2.zero;
         Vec2 dir = Vec2.zero;
         long tagCount = 0;
@@ -80,8 +79,7 @@ public abstract class UscOpMode extends LinearOpMode {
             }
             tagCount += detections.size();
         }
-
-        return new Position(pos.div(tagCount), dir.angle());
+        robotPos = new Position(pos.div(tagCount), dir.angle());
     }
 
     public void setUpDrivetrain() {
