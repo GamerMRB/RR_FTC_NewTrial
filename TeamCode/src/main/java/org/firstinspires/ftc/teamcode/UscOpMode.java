@@ -199,14 +199,11 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
     protected void moveToPosition(Vec2 target){
-        Vec2 diff;
+        Vec2 diff = target.sub(robotPos.disp).unit();
         double angle;
         double sin;
         double cos;
-        while (robotPos.disp.x != target.x + 1.5 && robotPos.disp.y != target.y + 1.5 ||
-                robotPos.disp.x != target.x - 1.5 && robotPos.disp.y != target.y + 1.5 ||
-                robotPos.disp.x != target.x + 1.5 && robotPos.disp.y != target.y - 1.5 ||
-                robotPos.disp.x != target.x - 1.5 && robotPos.disp.y != target.y - 1.5) {
+        while (diff.mag() >= 1.5) {
             diff = target.sub(robotPos.disp).unit();
             angle = diff.angle(robotPos.rot);
             sin = Math.sin(angle);
