@@ -19,7 +19,7 @@ public class PID {
         if(skipDiff){
             skipDiff = false;
         }else{
-            eDiff = e - eLast;
+            eDiff = (e - eLast) / dt;
         }
         eLast = e;
     }
