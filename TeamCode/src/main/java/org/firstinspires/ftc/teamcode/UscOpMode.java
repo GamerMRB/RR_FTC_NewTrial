@@ -30,12 +30,12 @@ public abstract class UscOpMode extends LinearOpMode {
 
     protected static Camera[] cameras = {
     };
-    protected static WebcamName camera1;
-    protected static WebcamName camera2;
-    protected static WebcamName camera3;
-    protected static VisionPortal visionPortal;
-    protected static VisionPortal visionPortal2;
-    protected static VisionPortal visionPortal3;
+    protected WebcamName camera1;
+    protected WebcamName camera2;
+    protected WebcamName camera3;
+    protected VisionPortal visionPortal;
+    protected VisionPortal visionPortal2;
+    protected VisionPortal visionPortal3;
 
     protected Vec2 robotPos;
     protected Vec2 robotDirection;
@@ -65,23 +65,23 @@ public abstract class UscOpMode extends LinearOpMode {
                 Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 3")),
         };
     }
-    public Vec2 getPos(){
+    public Position calculatePos(){
         Vec2 pos = Vec2.zero;
+        Vec2 dir = Vec2.zero;
         long tagCount = 0;
         for(Camera camera : cameras){
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
-                // calculate robot relative position
                 Position tag = new Position(Vec2.xy(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1)), 0);
                 Position cam = tag.sub(new Position(Vec2.xy(detection.ftcPose.x, detection.ftcPose.y), detection.ftcPose.yaw));
-
-//                pos = pos.add();
+                Position robot = cam.sub(camera.pos);
+                pos = pos.add(robot.disp);
+                dir = dir.add(robot.rot);
             }
-
             tagCount += detections.size();
         }
-        pos.div(tagCount);
-        return pos;
+
+        return new Position(pos.div(tagCount), dir.angle());
     }
 
     public void setUpDrivetrain() {
