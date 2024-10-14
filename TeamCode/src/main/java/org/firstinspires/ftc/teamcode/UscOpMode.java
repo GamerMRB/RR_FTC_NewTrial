@@ -215,6 +215,7 @@ public abstract class UscOpMode extends LinearOpMode {
             frontRight.setPower(cos - sin);
             backLeft.setPower(cos - sin);
             backRight.setPower(sin + cos);
+            updatePos();
         }
         setPower(0);
     }
