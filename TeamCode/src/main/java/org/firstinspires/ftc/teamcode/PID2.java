@@ -1,0 +1,30 @@
+package org.firstinspires.ftc.teamcode;
+
+public class PID2 {
+    public Vec2 p;
+    public Vec2 i;
+    public Vec2 d;
+    public Vec2 eLast = Vec2.zero;
+    public Vec2 eDiff = Vec2.zero;
+    public Vec2 eInt = Vec2.zero;
+    public boolean skipDiff = true;
+
+    public PID2(Vec2 p, Vec2 i, Vec2 d){
+        this.p = p;
+        this.i = i;
+        this.d = d;
+    }
+    public void update(Vec2 e, double dt){
+        eInt = eInt.add(e.mult(dt));
+        if(skipDiff){
+            skipDiff = false;
+        }
+        else{
+            eDiff = e.sub(eLast).div(dt);
+        }
+        eLast = e;
+    }
+    public Vec2 getPow(){
+        return eLast.mult(p).add(eInt.mult(i)).add(eDiff.mult(d));
+    }
+}

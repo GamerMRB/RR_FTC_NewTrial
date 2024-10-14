@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public class PID {
+public class PID1 {
     public double p;
     public double i;
     public double d;
@@ -9,7 +9,7 @@ public class PID {
     public double eInt = 0;
     public boolean skipDiff = true;
 
-    public PID(double p, double i, double d){
+    public PID1(double p, double i, double d){
        this.p = p;
        this.i = i;
        this.d = d;
