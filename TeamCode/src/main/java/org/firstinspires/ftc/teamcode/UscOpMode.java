@@ -61,6 +61,7 @@ public abstract class UscOpMode extends LinearOpMode {
     public void setUpCameras(){
         cameras = new Camera[]{
                 Camera.makeIt(new Position(Vec2.xy(0, 3), 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
+                Camera.makeIt(new Position(Vec2.xy(0, -3), Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2")),
         };
     }
     public void updatePos(){
