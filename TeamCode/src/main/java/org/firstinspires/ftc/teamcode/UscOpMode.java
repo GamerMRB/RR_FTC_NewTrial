@@ -6,19 +6,12 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.*;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public abstract class UscOpMode extends LinearOpMode {
@@ -60,8 +53,8 @@ public abstract class UscOpMode extends LinearOpMode {
 
     public void setUpCameras(){
         cameras = new Camera[]{
-                Camera.makeIt(new Position(Vec2.xy(0, 3), 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
-                Camera.makeIt(new Position(Vec2.xy(0, -3), Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2")),
+                Camera.makeIt(Position.xyr(0, 3, 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
+                Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2")),
         };
     }
     public void updatePos(){
@@ -71,15 +64,15 @@ public abstract class UscOpMode extends LinearOpMode {
         for(Camera camera : cameras){
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
-                Position tag = new Position(Vec2.xy(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1)), 0);
-                Position cam = tag.sub(new Position(Vec2.xy(detection.ftcPose.x, detection.ftcPose.y), detection.ftcPose.yaw));
-                Position robot = cam.sub(camera.pos);
+                Position tag = Position.xyr(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1), 0);
+                Position cam = tag.remove(Position.xyr(detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
+                Position robot = cam.remove(camera.pos);
                 pos = pos.add(robot.disp);
                 dir = dir.add(robot.rot);
             }
             tagCount += detections.size();
         }
-        robotPos = new Position(pos.div(tagCount), dir.angle());
+        robotPos = Position.vr(pos.div(tagCount), dir.angle());
     }
 
     public void setUpDrivetrain() {
@@ -142,46 +135,25 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setTargetPosition(numberOfTicks);
     }
 
-    protected void motorsForward() {
+
+    protected void setupDirections(){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
-    protected void motorsBackward() {
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    protected void pow(double forward, double side, double rot){
+        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(forward));
+        frontLeft  .setPower((forward - side - rot) / maxPow);
+        frontRight .setPower((forward + side + rot) / maxPow);
+        backLeft   .setPower((forward + side - rot) / maxPow);
+        backRight  .setPower((forward - side + rot) / maxPow);
     }
-
-    protected void motorsStrafeLeft() {
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD); //+
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE); //-
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD); //+
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE); //-
+    protected void pow(Position position){
+        pow(position.disp.y, position.disp.x, position.rot);
     }
-
-    protected void motorsStrafeRight() {
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE); //-
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD); //+
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE); //-
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD); //+
-    }
-
-    protected void motorsLeft() {
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-    }
-
-    protected void motorsRight() {
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+    protected void pow(Vec2 disp, double rot){
+        pow(disp.y, disp.x, rot);
     }
 
     protected void movementPowerDisable() {
@@ -198,6 +170,10 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setMotorEnable();
     }
 
+//    protected void moveTo(Position position){
+//        Position diff = robotPos.
+//        while()
+//    }
     protected void moveTo(Vec2 target){
         Vec2 diff = target.sub(robotPos.disp).unit();
         double angle;
@@ -215,109 +191,6 @@ public abstract class UscOpMode extends LinearOpMode {
             updatePos();
         }
         setPower(0);
-    }
-    protected void rotateTo(Vec2 target){
-
-    }
-    protected void rotateTo(double angle){
-
-    }
-
-    protected void turnLeft(double degrees, double velocity) {
-        double numberOfTicks = degrees * ((TICKS_PER_REVOLUTION * 2) / 90);
-        resetMotors();
-        motorsLeft();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
-    }
-
-    protected void turnRight(double degrees, double velocity) {
-        double numberOfTicks = degrees * ((TICKS_PER_REVOLUTION * 2) / 90);
-        resetMotors();
-        motorsRight();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
-    }
-
-    protected void moveForward(double distanceMm, double velocity) {
-        double numberOfTicks = (distanceMm / WHEEL_CIRCUMFERENCE) * TICKS_PER_REVOLUTION;
-        resetMotors();
-        motorsForward();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
-    }
-
-    protected void moveBackward(double distanceMm, double velocity) {
-        double numberOfTicks = (distanceMm / WHEEL_CIRCUMFERENCE) * TICKS_PER_REVOLUTION;
-        resetMotors();
-        motorsBackward ();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
-    }
-
-
-    protected void strafeLeft(double distanceMm, double velocity) {
-        double numberOfTicks = (distanceMm / WHEEL_CIRCUMFERENCE) * TICKS_PER_REVOLUTION;
-        resetMotors();
-        motorsStrafeLeft();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        if (frontLeft.getCurrentPosition() >= numberOfTicks) {
-            setVelocity(0.0);
-        }
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
-    }
-
-    protected void strafeRight(double distanceMm, double velocity) {
-        double numberOfTicks = (distanceMm / WHEEL_CIRCUMFERENCE) * TICKS_PER_REVOLUTION;
-        resetMotors();
-        motorsStrafeRight();
-        setTargetPosition((int) numberOfTicks);
-        setRunToPosition();
-        setVelocity(velocity);
-        if (frontLeft.getCurrentPosition() >= numberOfTicks) {
-            setVelocity(0.0);
-        }
-        while (frontLeft.isBusy()) {
-            telemetry.addData("velocity", frontLeft.getVelocity());
-            telemetry.addData("position", frontLeft.getCurrentPosition());
-            telemetry.addData("is at target", !frontLeft.isBusy());
-            telemetry.update();
-        }
     }
 
     protected void calculateClaw(){
