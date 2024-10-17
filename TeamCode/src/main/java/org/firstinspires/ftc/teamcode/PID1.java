@@ -18,12 +18,19 @@ public class PID1 {
         eInt += e * dt;
         if(skipDiff){
             skipDiff = false;
-        }else{
+        }
+        else{
             eDiff = (e - eLast) / dt;
         }
         eLast = e;
     }
     public double getPow(){
         return p * eLast + i * eInt + d * eDiff;
+    }
+    public void reset(){
+        eLast = 0;
+        eDiff = 0;
+        eInt = 0;
+        skipDiff = true;
     }
 }

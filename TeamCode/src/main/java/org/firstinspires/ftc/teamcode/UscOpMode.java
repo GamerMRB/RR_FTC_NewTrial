@@ -41,6 +41,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected Vec3 clawPos;
     protected double armAngle;
     protected double armLength;
+    protected PID2 drivetrainPID;
 
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
@@ -59,9 +60,7 @@ public abstract class UscOpMode extends LinearOpMode {
 
     public void setUpCameras(){
         cameras = new Camera[]{
-                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
-                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 2")),
-                Camera.makeIt(new Position(Vec2.xy(0, 0), 0), hardwareMap.get(WebcamName.class, "Webcam 3")),
+                Camera.makeIt(new Position(Vec2.xy(0, 3), 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
         };
     }
     public void updatePos(){

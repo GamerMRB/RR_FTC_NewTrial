@@ -27,4 +27,10 @@ public class PID2 {
     public Vec2 getPow(){
         return eLast.mult(p).add(eInt.mult(i)).add(eDiff.mult(d));
     }
+    public void reset(){
+        eLast = Vec2.zero;
+        eDiff = Vec2.zero;
+        eInt = Vec2.zero;
+        skipDiff = true;
+    }
 }
