@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.dynamicsLibrary;
 
 public class Vec3 {
     public static final Vec3 i = new Vec3(1, 0, 0);
