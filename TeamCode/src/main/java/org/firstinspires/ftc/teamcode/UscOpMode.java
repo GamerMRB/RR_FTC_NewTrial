@@ -34,7 +34,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected Vec3 clawPos;
     protected double armAngle;
     protected double armLength;
-    protected PID2 drivetrainPID;
+    protected PID2 movementPID;
+    protected PID rotationPID;
 
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
@@ -75,6 +76,12 @@ public abstract class UscOpMode extends LinearOpMode {
         robotPos = Position.vr(pos.div(tagCount), dir.angle());
     }
 
+    protected void setupDirections(){
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
     public void setUpDrivetrain() {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 3
         backRight = hardwareMap.get(DcMotorEx.class, "backRight"); // Motor 2
@@ -84,7 +91,7 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setZeroPowerBehavior(BRAKE);
         frontRight.setZeroPowerBehavior(BRAKE);
         frontLeft.setZeroPowerBehavior(BRAKE);
-
+        setupDirections();
     }
     public void setUpArm(){
         armAngle = INITIAL_ARM_ANGLE;
@@ -136,18 +143,12 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
 
-    protected void setupDirections(){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
-    }
     protected void pow(double forward, double side, double rot){
         double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(forward));
-        frontLeft  .setPower((forward - side - rot) / maxPow);
-        frontRight .setPower((forward + side + rot) / maxPow);
-        backLeft   .setPower((forward + side - rot) / maxPow);
-        backRight  .setPower((forward - side + rot) / maxPow);
+        frontLeft.setPower((forward - side - rot) / maxPow);
+        frontRight.setPower((forward + side + rot) / maxPow);
+        backLeft.setPower((forward + side - rot) / maxPow);
+        backRight.setPower((forward - side + rot) / maxPow);
     }
     protected void pow(Position position){
         pow(position.disp.y, position.disp.x, position.rot);
@@ -169,29 +170,49 @@ public abstract class UscOpMode extends LinearOpMode {
         backLeft.setMotorEnable();
         backRight.setMotorEnable();
     }
-
-//    protected void moveTo(Position position){
-//        Position diff = robotPos.
-//        while()
-//    }
-    protected void moveTo(Vec2 target){
-        Vec2 diff = target.sub(robotPos.disp).unit();
-        double angle;
-        double sin;
-        double cos;
-        while (diff.mag() >= 1.5) {
-            diff = target.sub(robotPos.disp).unit();
-            angle = diff.angle(robotPos.rot);
-            sin = Math.sin(angle);
-            cos = Math.cos(angle);
-            frontLeft.setPower(sin + cos);
-            frontRight.setPower(cos - sin);
-            backLeft.setPower(cos - sin);
-            backRight.setPower(sin + cos);
-            updatePos();
-        }
-        setPower(0);
+    protected double mod(double a, double b){
+        return a - b*Math.floor(a / b);
     }
+    protected double simplifyAngle(double angle){
+        return mod(angle + Math.PI, 2*Math.PI) - Math.PI;
+    }
+    protected void moveTo(Position position){
+        Position diff = robotPos.difference(position);
+        double posAllowance = 1.5;
+        double angAllowance = Math.PI/8;
+        double then = (double) System.currentTimeMillis() / 1000;
+        while(
+                diff.disp.mag() >= posAllowance ||
+                Math.abs(simplifyAngle(diff.rot)) >= angAllowance
+        ){
+            double now = getRuntime();
+            double dt = now - then;
+            movementPID.update(diff.disp, dt);
+            rotationPID.update(simplifyAngle(diff.rot), dt);
+            pow(movementPID.getPow(), rotationPID.getPow());
+            updatePos();
+            diff = robotPos.difference(position);
+            then = now;
+        }
+    }
+//    protected void moveTo(Vec2 target){
+//        Vec2 diff = target.sub(robotPos.disp).unit();
+//        double angle;
+//        double sin;
+//        double cos;
+//        while (diff.mag() >= 1.5) {
+//            diff = target.sub(robotPos.disp).unit();
+//            angle = diff.angle(robotPos.rot);
+//            sin = Math.sin(angle);
+//            cos = Math.cos(angle);
+//            frontLeft.setPower(sin + cos);
+//            frontRight.setPower(cos - sin);
+//            backLeft.setPower(cos - sin);
+//            backRight.setPower(sin + cos);
+//            updatePos();
+//        }
+//        setPower(0);
+//    }
 
     protected void calculateClaw(){
         clawPos = pivotPos.add(Vec3.v2z(robotPos.dir().mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
