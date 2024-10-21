@@ -50,6 +50,7 @@ public abstract class UscOpMode extends LinearOpMode {
     public void setUpHardware(){
         setUpDrivetrain();
         setUpCameras();
+        setUpArm();
     }
 
     public void setUpCameras(){
@@ -76,7 +77,7 @@ public abstract class UscOpMode extends LinearOpMode {
         robotPos = Position.vr(pos.div(tagCount), dir.angle());
     }
 
-    protected void setupDirections(){
+    protected void setUpDirections(){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -91,7 +92,7 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setZeroPowerBehavior(BRAKE);
         frontRight.setZeroPowerBehavior(BRAKE);
         frontLeft.setZeroPowerBehavior(BRAKE);
-        setupDirections();
+        setUpDirections();
     }
     public void setUpArm(){
         armAngle = INITIAL_ARM_ANGLE;

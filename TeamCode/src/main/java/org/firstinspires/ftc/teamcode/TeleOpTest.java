@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 public class TeleOpTest extends UscOpMode {
 
     public void runOpMode() {
-        setUpDrivetrain();
+        setUpHardware();
         waitForStart();
         double speedX = 0.75 * SPEED_MAX;
         double strafeSpeedX = STRAFE_SPEED;

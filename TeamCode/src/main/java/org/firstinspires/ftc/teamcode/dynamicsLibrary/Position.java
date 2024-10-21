@@ -39,4 +39,7 @@ public class Position {
     public Position difference(Position pos){
         return Position.vr(disp.sub(pos.disp), rot - pos.rot);
     }
+    public String toString(){
+        return String.format("%s, %s", disp, rot);
+    }
 }

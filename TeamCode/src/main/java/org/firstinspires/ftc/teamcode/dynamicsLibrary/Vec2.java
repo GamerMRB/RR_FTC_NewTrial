@@ -127,4 +127,7 @@ public class Vec2 {
     public double angle(double s){
         return dot(s, s)/mag()/(Math.sqrt(2) * s);
     }
+    public String toString(){
+        return String.format("(%s, %s)", x, y);
+    }
 }
