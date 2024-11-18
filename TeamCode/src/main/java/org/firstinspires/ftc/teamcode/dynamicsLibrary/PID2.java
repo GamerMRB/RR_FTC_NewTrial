@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary;
 
 public class PID2 {
-    public Vec2 p;
-    public Vec2 i;
-    public Vec2 d;
+    public float p;
+    public float i;
+    public float d;
     public Vec2 eLast = Vec2.zero;
     public Vec2 eDiff = Vec2.zero;
     public Vec2 eInt = Vec2.zero;
     public boolean skipDiff = true;
 
-    public PID2(Vec2 p, Vec2 i, Vec2 d){
+    public PID2(float p, float i, float d){
         this.p = p;
         this.i = i;
         this.d = d;

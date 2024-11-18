@@ -34,8 +34,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected Vec3 clawPos;
     protected double armAngle;
     protected double armLength;
-    protected PID2 movementPID;
-    protected PID rotationPID;
+    protected PID2 movementPID = new PID2(1, 0, 0);
+    protected PID rotationPID = new PID(1, 0, 0);
 
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
