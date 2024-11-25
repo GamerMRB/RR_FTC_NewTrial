@@ -20,6 +20,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected DcMotorEx frontRight;
     protected DcMotorEx backLeft;
     protected DcMotorEx backRight;
+    protected DcMotorEx armPivot;
+    protected DcMotorEx armSlide;
 
     protected static Camera[] cameras = {
     };
@@ -49,7 +51,7 @@ public abstract class UscOpMode extends LinearOpMode {
 
     public void setUpHardware(){
         setUpDrivetrain();
-        setUpCameras();
+        //setUpCameras();
         setUpArm();
     }
 
@@ -80,14 +82,14 @@ public abstract class UscOpMode extends LinearOpMode {
     protected void setUpDirections(){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     public void setUpDrivetrain() {
-        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 3
+        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 0
         backRight = hardwareMap.get(DcMotorEx.class, "backRight"); // Motor 2
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft"); // Motor 1
-        frontRight = hardwareMap.get(DcMotorEx.class, "frontRight"); // Motor 0
+        frontRight = hardwareMap.get(DcMotorEx.class, "frontRight"); // Motor 4
         backLeft.setZeroPowerBehavior(BRAKE);
         backRight.setZeroPowerBehavior(BRAKE);
         frontRight.setZeroPowerBehavior(BRAKE);
@@ -97,9 +99,10 @@ public abstract class UscOpMode extends LinearOpMode {
     public void setUpArm(){
         armAngle = INITIAL_ARM_ANGLE;
         armLength = MIN_ARM_LENGTH;
-
+        armPivot = hardwareMap.get(DcMotorEx.class, "armPivot");
+        armSlide = hardwareMap.get(DcMotorEx.class, "armSlide");
+        armPivot.setZeroPowerBehavior(BRAKE);
     }
-
     public void runOpMode() throws InterruptedException {
     }
 

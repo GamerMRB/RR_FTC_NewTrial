@@ -17,8 +17,8 @@ public class TeleOpTest extends UscOpMode {
 
         while (opModeIsActive()) {
            // Drive
-            telemetry.addData("Turn: ", this.gamepad1.right_stick_x);
-            telemetry.addData("Throttle: ", this.gamepad1.left_stick_y);
+            telemetry.addData("Turn: ", -this.gamepad1.right_stick_x);
+            telemetry.addData("Throttle: ", -this.gamepad1.left_stick_y);
             currentX = this.gamepad1.right_stick_x;
             currentY = this.gamepad1.left_stick_y;
             double throttle = -currentY * speedX;
@@ -43,6 +43,33 @@ public class TeleOpTest extends UscOpMode {
                 backLeft.setPower(strafeSpeedX);
                 backRight.setPower(strafeSpeedX);
             }
+            // Arm
+            if (this.gamepad1.left_trigger > 0){
+                armPivot.setPower(1.0);
+            }
+            else{
+                armPivot.setPower(0.0);
+            }
+            if (this.gamepad1.right_trigger > 0){
+                armPivot.setPower(-1.0);
+            }
+            else{
+                armPivot.setPower(0.0);
+            }
+            if (this.gamepad1.y){
+                armSlide.setPower(-1.0);
+            }
+            else {
+                armSlide.setPower(0.0);
+            }
+            if (this.gamepad1.x){
+                armSlide.setPower(1.0);
+            }
+            else {
+                armSlide.setPower(0.0);
+            }
+            // Claw
+            telemetry.update();
         }
     }
 }
