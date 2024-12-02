@@ -59,7 +59,9 @@ public class TeleOpTest extends UscOpMode {
                 armTarget = 0;
                 armActive = true;
             }
-            moveArmToward(armTarget);
+            if (armActive) {
+                moveArmToward(armTarget);
+            }
 
             if (this.gamepad1.y){
                 armSlide.setPower(-1.0);
