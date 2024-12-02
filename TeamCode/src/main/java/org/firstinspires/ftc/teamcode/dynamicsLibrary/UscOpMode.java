@@ -8,8 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.vision.*;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -41,6 +43,10 @@ public abstract class UscOpMode extends LinearOpMode {
     protected PID2 movementPID = new PID2(1, 0, 0);
     protected PID rotationPID = new PID(1, 0, 0);
 
+    protected PID armPID = new PID(1, 0, 0);
+    protected double armThen = 0;
+    protected boolean armDisabled = true;
+
     protected final double WHEEL_DIAMETER = 96.0;
     protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     protected final double TICKS_PER_REVOLUTION = 538;
@@ -49,6 +55,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
     protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
     protected final double MIN_ARM_LENGTH = 10.375;
+
 
 
     public void setUpHardware(){
@@ -64,16 +71,16 @@ public abstract class UscOpMode extends LinearOpMode {
                 Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2"), 0),
         };
     }
-    public ArrayList<Quaternion> updatePos(){
+    public ArrayList<Orientation> updatePos(){
         Vec2 pos = Vec2.zero;
         Vec2 dir = Vec2.zero;
         long tagCount = 0;
-        ArrayList<Quaternion> orientations = new ArrayList<>();
+        ArrayList<Orientation> orientations = new ArrayList<>();
         for(Camera camera : cameras){
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
                 Position tag = Position.xyr(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1), 0);
-                orientations.add(detection.metadata.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.));
+                orientations.add(detection.metadata.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS));
                 Position cam = tag.remove(Position.xyr(detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
                 Position robot = cam.remove(camera.pos);
                 pos = pos.add(robot.disp);
@@ -109,7 +116,21 @@ public abstract class UscOpMode extends LinearOpMode {
         armLength = MIN_ARM_LENGTH;
         armPivot = hardwareMap.get(DcMotorEx.class, "armPivot");
         armSlide = hardwareMap.get(DcMotorEx.class, "armSlide");
-        armPivot.setZeroPowerBehavior(BRAKE);
+    }
+    public void moveArmToward(double position){
+        double now = getRuntime();
+        double dt = now - armThen;
+        if(armDisabled){
+            armDisabled = false;
+            armPID.reset();
+        }
+        armPID.update(position - armPivot.getCurrentPosition(), dt);
+        armPivot.setPower(armPID.getPow());
+        armThen = now;
+    }
+    public void disableArm(){
+        armDisabled = true;
+        armPivot.setPower(0);
     }
     public void runOpMode() throws InterruptedException {
     }

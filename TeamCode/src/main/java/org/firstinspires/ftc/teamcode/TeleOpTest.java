@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
@@ -17,6 +18,9 @@ public class TeleOpTest extends UscOpMode {
         double strafeSpeedX = STRAFE_SPEED;
         double currentX;
         double currentY;
+
+        double armTarget = 0;
+        boolean armActive = false;
 
         while (opModeIsActive()) {
            // Drive
@@ -48,17 +52,15 @@ public class TeleOpTest extends UscOpMode {
             }
             // Arm
             if (this.gamepad1.left_trigger > 0){
-                armPivot.setPower(1.0);
-            }
-            else{
-                armPivot.setPower(0.0);
+                armTarget = 10;
+                armActive = true;
             }
             if (this.gamepad1.right_trigger > 0){
-                armPivot.setPower(-1.0);
+                armTarget = 0;
+                armActive = true;
             }
-            else{
-                armPivot.setPower(0.0);
-            }
+            moveArmToward(armTarget);
+
             if (this.gamepad1.y){
                 armSlide.setPower(-1.0);
             }
@@ -71,10 +73,11 @@ public class TeleOpTest extends UscOpMode {
             else {
                 armSlide.setPower(0.0);
             }
-            ArrayList<Quaternion> detections = updatePos();
+
+            ArrayList<Orientation> detections = updatePos();
             telemetry.addLine(robotPos.toString());
-            for(Quaternion detection : detections){
-                telemetry.addLine(detection.toString());
+            for(Orientation detection : detections){
+                telemetry.addLine(Double.toString(detection.firstAngle) + ", " + Double.toString(detection.secondAngle) + ", " + Double.toString(detection.thirdAngle));
             }
             telemetry.update();
         }
