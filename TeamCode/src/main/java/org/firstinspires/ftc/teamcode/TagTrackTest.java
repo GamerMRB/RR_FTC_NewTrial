@@ -13,6 +13,7 @@ public class TagTrackTest extends UscOpMode {
             telemetry.clear();
             updatePos();
             telemetry.addLine(robotPos.toString());
+            telemetry.update();
         }
     }
 }

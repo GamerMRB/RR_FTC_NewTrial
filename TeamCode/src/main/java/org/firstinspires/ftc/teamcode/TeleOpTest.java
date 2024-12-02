@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
+
+import java.util.ArrayList;
 
 @TeleOp
 public class TeleOpTest extends UscOpMode {
@@ -68,7 +71,11 @@ public class TeleOpTest extends UscOpMode {
             else {
                 armSlide.setPower(0.0);
             }
-            // Claw
+            ArrayList<Quaternion> detections = updatePos();
+            telemetry.addLine(robotPos.toString());
+            for(Quaternion detection : detections){
+                telemetry.addLine(detection.toString());
+            }
             telemetry.update();
         }
     }

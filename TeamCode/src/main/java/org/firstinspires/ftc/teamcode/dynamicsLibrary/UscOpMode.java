@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.vision.*;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -32,7 +34,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected VisionPortal visionPortal2;
     protected VisionPortal visionPortal3;
 
-    protected Position robotPos;
+    protected Position robotPos = Position.xyr(0, 0, 0);
     protected Vec3 clawPos;
     protected double armAngle;
     protected double armLength;
@@ -51,24 +53,27 @@ public abstract class UscOpMode extends LinearOpMode {
 
     public void setUpHardware(){
         setUpDrivetrain();
-        //setUpCameras();
+        setUpCameras();
         setUpArm();
+
     }
 
     public void setUpCameras(){
         cameras = new Camera[]{
-                Camera.makeIt(Position.xyr(0, 3, 0), hardwareMap.get(WebcamName.class, "Webcam 1")),
-//                Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2")),
+                Camera.makeIt(Position.xyr(0, 3, 0), hardwareMap.get(WebcamName.class, "Webcam 1"), 0),
+                Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2"), 0),
         };
     }
-    public void updatePos(){
+    public ArrayList<Quaternion> updatePos(){
         Vec2 pos = Vec2.zero;
         Vec2 dir = Vec2.zero;
         long tagCount = 0;
+        ArrayList<Quaternion> orientations = new ArrayList<>();
         for(Camera camera : cameras){
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
                 Position tag = Position.xyr(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1), 0);
+                orientations.add(detection.metadata.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.));
                 Position cam = tag.remove(Position.xyr(detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
                 Position robot = cam.remove(camera.pos);
                 pos = pos.add(robot.disp);
@@ -76,7 +81,10 @@ public abstract class UscOpMode extends LinearOpMode {
             }
             tagCount += detections.size();
         }
-        robotPos = Position.vr(pos.div(tagCount), dir.angle());
+        if(tagCount > 0) {
+            robotPos = Position.vr(pos.div(tagCount), dir.angle());
+        }
+        return orientations;
     }
 
     protected void setUpDirections(){
