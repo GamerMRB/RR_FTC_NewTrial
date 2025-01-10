@@ -349,14 +349,18 @@ public class OptimusPrime extends UscOpMode {
             frontRight.setPower(0);
             backLeft.setPower(0);
             backRight.setPower(0);
+            getX.remove(getX.size() - 1);
+            getY.remove(getY.size() - 1);
         }
 
         if (getX.get(getX.size() - 1) != 0) {
             avgX -= getX.get(getX.size() - 1);
+            getX.set(getX.size() - 1, 0.0);
         }
 
         if (getY.get(getY.size() - 1) != 0) {
             avgY -= getY.get(getY.size() - 1);
+            getY.set(getY.size() - 1, 0.0);
         }
 
     }
