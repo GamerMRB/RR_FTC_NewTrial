@@ -337,6 +337,9 @@ public class OptimusPrime extends UscOpMode {
         this.CHANGE = change;
         this.DIRECTION = direction;
 
+        getX.add(0.0);
+        getY.add(0.0);
+
         frontLeft.setPower(-DIRECTION);
         frontRight.setPower(DIRECTION);
         backLeft.setPower(-DIRECTION);
