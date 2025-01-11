@@ -83,8 +83,8 @@ public class OptimusPrime extends UscOpMode {
 
             // Measurements: [posX, posY, heading]
             double[] measurement = new double[5];
-            measurement[0] = (frontRightDistance) / 2 * Math.cos(Math.toRadians(imuHeading)); // X Position
-            measurement[1] = (frontRightDistance) / 2 * Math.sin(Math.toRadians(imuHeading)); // Y Position
+            measurement[0] = frontRightDistance * Math.cos(Math.toRadians(imuHeading)); // X Position
+            measurement[1] = frontRightDistance * Math.sin(Math.toRadians(imuHeading)); // Y Position
             measurement[2] = imuHeading;
             measurement[3] = armDistance;
             measurement[4] = armLength;
@@ -337,6 +337,9 @@ public class OptimusPrime extends UscOpMode {
         this.CHANGE = change;
         this.DIRECTION = direction;
 
+        int initGetX = getX.size();
+        int initGetY = getY.size();
+
         getX.add(0.0);
         getY.add(0.0);
 
@@ -349,8 +352,9 @@ public class OptimusPrime extends UscOpMode {
             frontRight.setPower(0);
             backLeft.setPower(0);
             backRight.setPower(0);
-            getX.remove(getX.size() - 1);
-            getY.remove(getY.size() - 1);
+
+            getX.subList(initGetX, getX.size()).clear();
+            getY.subList(initGetY, getY.size()).clear();
         }
 
         if (getX.get(getX.size() - 1) != 0) {
