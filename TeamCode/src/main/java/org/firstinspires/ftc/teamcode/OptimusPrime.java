@@ -133,147 +133,147 @@ public class OptimusPrime extends UscOpMode {
             ////Code (Sample, alterations TBD 1/6/25)
 
             //First put the specimen on highest bar
-            arcee(0,1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
+            pivot(0,1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
             //Next, go over to team member
-            wheelie(0,1);
-            ratchet(180,1);
+            strafe(0,1);
+            turn(180,1);
             //Pick up specimen and score on top bar
-            bulkhead(0,1);
-            arcee(0,1);
-            ironhide(2);
-            arcee(0,-1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            slide(0,1);
+            pivot(0,1);
+            claw(2);
+            pivot(0,-1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Next, go pick up neutral sample and give to team member
-            wheelie(0,-1);
-            arcee(0,-1);
-            bulkhead(0,1);
-            ironhide(2);
-            arcee(0,-1);
-            ratchet(180,1);
-            bumblebee(0,1);
-            arcee(0,1);
-            ironhide(1);
-            wheelie(0,1);
+            strafe(0,-1);
+            pivot(0,-1);
+            slide(0,1);
+            claw(2);
+            pivot(0,-1);
+            turn(180,1);
+            yController(0,1);
+            pivot(0,1);
+            claw(1);
+            strafe(0,1);
             //Pick up specimen and score on top bar
-            wheelie(0,-1);
-            bumblebee(0,1);
-            ironhide(2);
-            arcee(0,1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            strafe(0,-1);
+            yController(0,1);
+            claw(2);
+            pivot(0,1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Next, go pick up 2nd neutral sample and give to team member
-            wheelie(0,-1);
-            arcee(0,-1);
-            bulkhead(0,1);
-            ironhide(2);
-            arcee(0,-1);
-            ratchet(180,1);
-            bumblebee(0,1);
-            arcee(0,1);
-            ironhide(1);
-            wheelie(0,1);
+            strafe(0,-1);
+            pivot(0,-1);
+            slide(0,1);
+            claw(2);
+            pivot(0,-1);
+            turn(180,1);
+            yController(0,1);
+            pivot(0,1);
+            claw(1);
+            strafe(0,1);
             //Pick up specimen and score on top bar
-            wheelie(0,-1);
-            bumblebee(0,1);
-            ironhide(2);
-            arcee(0,1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            strafe(0,-1);
+            yController(0,1);
+            claw(2);
+            pivot(0,1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Next, go pick up 3rd neutral sample and give to team member
-            wheelie(0,-1);
-            arcee(0,-1);
-            bulkhead(0,1);
-            ironhide(2);
-            arcee(0,-1);
-            ratchet(180,1);
-            bumblebee(0,1);
-            arcee(0,1);
-            ironhide(1);
-            wheelie(0,1);
+            strafe(0,-1);
+            pivot(0,-1);
+            slide(0,1);
+            claw(2);
+            pivot(0,-1);
+            turn(180,1);
+            yController(0,1);
+            pivot(0,1);
+            claw(1);
+            strafe(0,1);
             //Pick up specimen and score on top bar
-            wheelie(0,-1);
-            bumblebee(0,1);
-            ironhide(2);
-            arcee(0,1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            strafe(0,-1);
+            yController(0,1);
+            claw(2);
+            pivot(0,1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Setup for color recognition
-            arcee(0,-1);
-            bumblebee(0,1);
+            pivot(0,-1);
+            yController(0,1);
             //Go use color recognition for next sample
-            jazz("blue");
+            camera("blue");
             //Pick up specimen and score on top bar
-            bumblebee(0,-1);
-            wheelie(0,1);
-            ratchet(180,1);
-            arcee(0,1);
-            bumblebee(0,1);
-            ironhide(1);
-            wheelie(0,1);
+            yController(0,-1);
+            strafe(0,1);
+            turn(180,1);
+            pivot(0,1);
+            yController(0,1);
+            claw(1);
+            strafe(0,1);
             //wait...find variable for waiting
-            wheelie(0,-1);
-            bumblebee(0,1);
-            ironhide(2);
-            arcee(0,1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            strafe(0,-1);
+            yController(0,1);
+            claw(2);
+            pivot(0,1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Setup for color recognition
-            arcee(0,-1);
-            bumblebee(0,1);
+            pivot(0,-1);
+            yController(0,1);
             //Go use color recognition for next sample
-            jazz("blue");
+            camera("blue");
             //Pick up specimen and score on top bar
-            bumblebee(0,-1);
-            wheelie(0,1);
-            ratchet(180,1);
-            arcee(0,1);
-            bumblebee(0,1);
-            ironhide(1);
-            wheelie(0,1);
+            yController(0,-1);
+            strafe(0,1);
+            turn(180,1);
+            pivot(0,1);
+            yController(0,1);
+            claw(1);
+            strafe(0,1);
             //wait...find variable for waiting
-            wheelie(0,-1);
-            bumblebee(0,1);
-            ironhide(2);
-            arcee(0,1);
-            ratchet(180,1);
-            wheelie(0,-1);
-            bumblebee(0,1);
-            arcee(0,-1);
-            ironhide(1);
-            bumblebee(0,-1);
-            bulkhead(0,-1);
+            strafe(0,-1);
+            yController(0,1);
+            claw(2);
+            pivot(0,1);
+            turn(180,1);
+            strafe(0,-1);
+            yController(0,1);
+            pivot(0,-1);
+            claw(1);
+            yController(0,-1);
+            slide(0,-1);
             //Park
-            wheelie(0,-1);
+            strafe(0,-1);
 
             ////Telemetry
             telemetry();
@@ -299,7 +299,7 @@ public class OptimusPrime extends UscOpMode {
     // ***DISCLAIMER*** If CHANGE is positive, DIRECTION must be positive, but if CHANGE is negative, DIRECTION must be negative (EXCEPTION: HEADING)
 
     //y controller
-    public void bumblebee(double change, int direction) {
+    public void yController(double change, int direction) {
         this.CHANGE = change * 25.4;
         this.DIRECTION = direction;
 
@@ -316,7 +316,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //x controller
-    public void wheeljack(double change, int direction) {
+    public void xController(double change, int direction) {
         this.CHANGE = change * 25.4;
         this.DIRECTION = direction;
 
@@ -333,7 +333,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //heading, -Direction goes to the left, while +Direction goes to the right
-    public void ratchet(double change, int direction) {
+    public void turn(double change, int direction) {
         this.CHANGE = change;
         this.DIRECTION = direction;
 
@@ -370,7 +370,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //arm pivot controller; change = sin(theta) * armLength
-    public void arcee(double change, int direction) {
+    public void pivot(double change, int direction) {
         this.CHANGE = change * 25.4;
         this.DIRECTION = direction;
 
@@ -381,7 +381,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //claw controller
-    public void ironhide(int claw) {
+    public void claw(int claw) {
         this.CLAW_OPEN = claw;
 
         if (CLAW_OPEN == 1) {
@@ -395,7 +395,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //arm controller
-    public void bulkhead(double change, int direction) {
+    public void slide(double change, int direction) {
         this.CHANGE = change * 25.4;
         this.DIRECTION = direction;
 
@@ -406,7 +406,7 @@ public class OptimusPrime extends UscOpMode {
     }
 
     //strafe controller
-    public void wheelie(double change, double direction) {
+    public void strafe(double change, double direction) {
         this.CHANGE = change * 25.4;
         this.DIRECTION = direction;
 
@@ -420,12 +420,14 @@ public class OptimusPrime extends UscOpMode {
                 frontRight.setPower(0);
                 backLeft.setPower(0);
                 backRight.setPower(0);
+                stopFlag = true;
             }
         }
     }
 
     //Color recognition using camera
-    public void jazz(String teamColor) {
+    public void camera(String teamColor) {
+        stopFlag = false;
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         VideoCapture camera = new VideoCapture();
 
@@ -439,8 +441,8 @@ public class OptimusPrime extends UscOpMode {
         Scalar lowerColor2 = new Scalar(50,50,50); //Yellow
         Scalar upperColor2 = new Scalar(175,175,175);
 
-        Thread wheelieThread = new Thread(() -> wheelie(24, -1)); // Start the robot's movement in a separate thread
-        wheelieThread.start();
+        Thread strafeThread = new Thread(() -> strafe(24, -1)); // Start the robot's movement in a separate thread
+        strafeThread.start();
 
         while (!stopFlag) {
             if (camera.read(frame)) {
@@ -459,16 +461,16 @@ public class OptimusPrime extends UscOpMode {
                 if (Objects.equals(teamColor, "blue")) {
                     if (Core.countNonZero(mask1) > 1000 | Core.countNonZero(mask3) > 1000) {
                         stopFlag = true;
-                        bulkhead(0,1);
-                        ironhide(2);
-                        bulkhead(0,-1);
+                        slide(0,1);
+                        claw(2);
+                        slide(0,-1);
                     }
                 } else if (Objects.equals(teamColor, "red")) {
                     if (Core.countNonZero(mask2) > 1000 | Core.countNonZero(mask3) > 1000) {
                         stopFlag = true;
-                        bulkhead(0,1);
-                        ironhide(2);
-                        bulkhead(0,-1);
+                        slide(0,1);
+                        claw(2);
+                        slide(0,-1);
                     }
                 }
                 hsvImage.release();
