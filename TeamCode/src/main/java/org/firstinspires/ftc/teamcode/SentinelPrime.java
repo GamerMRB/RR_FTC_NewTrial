@@ -71,7 +71,6 @@ public class SentinelPrime extends UscOpMode {
 
 
         while(opModeIsActive()) {
-            Thread setUpThread = new Thread(() -> {
                 ////Setup
 
                 //Encoders
@@ -129,12 +128,9 @@ public class SentinelPrime extends UscOpMode {
                 getY.add(avgY);
                 getArmLength.add(avgArmLength);
                 getArmDistance.add(avgArmDistance);
-            });
 
 
             ////Code (Sample, alterations TBD 1/6/25)
-
-            setUpThread.start();
 
             //First put the specimen on highest bar
             //Y,x,heading,pivot,claw,slide,strafe,camera
