@@ -6,6 +6,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -26,6 +27,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected DcMotorEx backRight;
     protected DcMotorEx armPivot;
     protected DcMotorEx armSlide;
+    protected Servo leftClaw;
+    protected Servo rightClaw;
 
     protected static Camera[] cameras = {
     };
@@ -55,6 +58,10 @@ public abstract class UscOpMode extends LinearOpMode {
     protected final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
     protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
     protected final double MIN_ARM_LENGTH = 10.375;
+    protected final double LEFT_CLOSE = 0.75;
+    protected final double RIGHT_CLOSE = 0.3 ;
+    protected final double LEFT_OPEN = 0.45;
+    protected final double RIGHT_OPEN = 0.60;
 
 
 
@@ -67,8 +74,8 @@ public abstract class UscOpMode extends LinearOpMode {
 
     public void setUpCameras(){
         cameras = new Camera[]{
-                Camera.makeIt(Position.xyr(0, 3, 0), hardwareMap.get(WebcamName.class, "Webcam 1"), 0),
-                Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2"), 0),
+//                Camera.makeIt(Position.xyr(0, 3, 0), hardwareMap.get(WebcamName.class, "Webcam 1"), 0),
+//                Camera.makeIt(Position.xyr(0, -3, Math.PI), hardwareMap.get(WebcamName.class, "Webcam 2"), 0),
         };
     }
     public ArrayList<Orientation> updatePos(){
@@ -97,8 +104,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected void setUpDirections(){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void setUpDrivetrain() {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 0
@@ -116,6 +123,10 @@ public abstract class UscOpMode extends LinearOpMode {
         armLength = MIN_ARM_LENGTH;
         armPivot = hardwareMap.get(DcMotorEx.class, "armPivot");
         armSlide = hardwareMap.get(DcMotorEx.class, "armSlide");
+        armPivot.setDirection(DcMotorSimple.Direction.REVERSE);
+        armSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftClaw = hardwareMap.get(Servo.class, "leftClaw");
+        rightClaw = hardwareMap.get(Servo.class, "rightClaw");
     }
     public void moveArmToward(double position){
         double now = getRuntime();
@@ -252,6 +263,15 @@ public abstract class UscOpMode extends LinearOpMode {
     }
     protected void moveClawTo(Vec3 target){
     // needs movement code first
+    }
+    protected void setClaw(boolean closed){
+        if (closed) {
+            leftClaw.setPosition(LEFT_CLOSE);
+            rightClaw.setPosition(RIGHT_CLOSE);
+        } else {
+            leftClaw.setPosition(LEFT_OPEN);
+            rightClaw.setPosition(RIGHT_OPEN);
+        }
     }
 
 

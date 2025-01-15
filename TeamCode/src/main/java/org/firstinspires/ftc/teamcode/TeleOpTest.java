@@ -76,6 +76,9 @@ public class TeleOpTest extends UscOpMode {
                 armSlide.setPower(0.0);
             }
 
+            telemetry.addLine("Arm pivot position: " + armPivot.getCurrentPosition());
+            telemetry.addLine("Arm slide position: " + armSlide.getCurrentPosition());
+
             ArrayList<Orientation> detections = updatePos();
             telemetry.addLine(robotPos.toString());
             for(Orientation detection : detections){
