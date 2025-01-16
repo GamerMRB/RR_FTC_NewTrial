@@ -188,7 +188,7 @@ public abstract class UscOpMode extends LinearOpMode {
 
 
     protected void pow(double forward, double side, double rot){
-        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(forward));
+        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(rot));
         frontLeft.setPower((forward - side - rot) / maxPow);
         frontRight.setPower((forward + side + rot) / maxPow);
         backLeft.setPower((forward + side - rot) / maxPow);
