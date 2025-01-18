@@ -22,6 +22,7 @@ public class TeleOpSplit extends UscOpMode {
         HIGH_BASKET
     }
 
+
     public void runOpMode() {
         Map<ArmPosition, Integer> armRotation = new HashMap<>();
         armRotation.put(ArmPosition.LOW_CHAMBER, 670);
@@ -35,7 +36,7 @@ public class TeleOpSplit extends UscOpMode {
         armLength.put(ArmPosition.HIGH_CHAMBER, 640);
         armLength.put(ArmPosition.LOW_BASKET, 1825);
         armLength.put(ArmPosition.HIGH_BASKET, 2990);
-        int defaultArmLength = 300;
+        int defaultArmLength = 325;
 
         Map<ArmPosition, String> positionNames = new HashMap<>();
         positionNames.put(ArmPosition.LOW_CHAMBER, "low chamber");
@@ -55,6 +56,14 @@ public class TeleOpSplit extends UscOpMode {
         setUpHardware();
         waitForStart();
 
+        double speedX = 0.75 * SPEED_MAX;
+        double strafeSpeedX = STRAFE_SPEED;
+        double currentX;
+        double currentY;
+
+        double armTarget = 0;
+        boolean armActive = false;
+
         armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -67,7 +76,7 @@ public class TeleOpSplit extends UscOpMode {
         armSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        armPivot.setVelocityPIDFCoefficients(2.5, 0.1, 0.2, 0);
 //        armPivot.setPositionPIDFCoefficients(1);
-        armPivot.setPower(1);
+        armPivot.setPower(0.5);
         armSlide.setPower(1);
 
         while (opModeIsActive()){
@@ -105,16 +114,41 @@ public class TeleOpSplit extends UscOpMode {
                 toggledClaw = false;
             }
             if(gamepad1.x){
-                armPivot.setMotorDisable();
-                armSlide.setMotorDisable();
-            }else{
-                armPivot.setMotorEnable();
-                armSlide.setMotorEnable();
+                armSlide.setVelocity(-100);
+                sleep(1000);
+                armSlide.setVelocity(0.0);
+
             }
-            pow(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             armPivot.setTargetPosition(armUp ? armRotation.get(targetPos) : defaultArmRotation);
             armSlide.setTargetPosition(armUp ? armLength.get(targetPos) : defaultArmLength);
+
+            telemetry.addData("Turn: ", -this.gamepad1.right_stick_x);
+            telemetry.addData("Throttle: ", -this.gamepad1.left_stick_y);
+            currentX = this.gamepad1.right_stick_x;
+            currentY = this.gamepad1.left_stick_y;
+            double throttle = -currentY * speedX;
+            // Allow second stick to turn also
+            double turn = currentX * speedX / 2.0;
+            double leftSpeed = -1 * (throttle + turn);
+            double rightSpeed = throttle - turn;
+            frontLeft.setPower(leftSpeed);
+            backLeft.setPower(leftSpeed);
+            frontRight.setPower(rightSpeed);
+            backRight.setPower(rightSpeed);
+            // Strafe
+            if (this.gamepad1.left_bumper) {
+                frontLeft.setPower(strafeSpeedX);
+                frontRight.setPower(strafeSpeedX);
+                backLeft.setPower(-strafeSpeedX);
+                backRight.setPower(-strafeSpeedX);
+            }
+            if (this.gamepad1.right_bumper) {
+                frontLeft.setPower(-strafeSpeedX);
+                frontRight.setPower(-strafeSpeedX);
+                backLeft.setPower(strafeSpeedX);
+                backRight.setPower(strafeSpeedX);
+            }
 
             telemetry.clear();
             telemetry.addLine("Current position: " + armPivot.getCurrentPosition());

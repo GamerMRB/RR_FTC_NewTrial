@@ -59,7 +59,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
     protected final double MIN_ARM_LENGTH = 10.375;
     protected final double LEFT_CLOSE = 0.75;
-    protected final double RIGHT_CLOSE = 0.3 ;
+    protected final double RIGHT_CLOSE = 0.35 ;
     protected final double LEFT_OPEN = 0.45;
     protected final double RIGHT_OPEN = 0.60;
 
@@ -104,8 +104,8 @@ public abstract class UscOpMode extends LinearOpMode {
     protected void setUpDirections(){
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     public void setUpDrivetrain() {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 0

@@ -77,21 +77,21 @@ public class OptimusPrime extends UscOpMode {
             armDistance = armPivot.getCurrentPosition() / COUNTS_PER_RADIAN;
             armLength = armSlide.getCurrentPosition() / COUNTS_PER_RADIAN;
 
-            //IMU data
-            Orientation angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            double imuHeading = angles.firstAngle;
-
-            // Measurements: [posX, posY, heading]
-            double[] measurement = new double[5];
-            measurement[0] = frontRightDistance * Math.cos(Math.toRadians(imuHeading)); // X Position
-            measurement[1] = frontRightDistance * Math.sin(Math.toRadians(imuHeading)); // Y Position
-            measurement[2] = imuHeading;
-            measurement[3] = armDistance;
-            measurement[4] = armLength;
+//            //IMU data
+//            Orientation angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//            double imuHeading = angles.firstAngle;
+//
+//            // Measurements: [posX, posY, heading]
+//            double[] measurement = new double[5];
+//            measurement[0] = frontRightDistance * Math.cos(Math.toRadians(imuHeading)); // X Position
+//            measurement[1] = frontRightDistance * Math.sin(Math.toRadians(imuHeading)); // Y Position
+//            measurement[2] = imuHeading;
+//            measurement[3] = armDistance;
+//            measurement[4] = armLength;
 
             //Kalman filter updates
             double[] state = {posX, posY, heading, armDistance, armLength};
-            kalmanUpdate(state, measurement);
+//            kalmanUpdate(state, measurement);
 
             //Update state variables
             posX = state[0];
