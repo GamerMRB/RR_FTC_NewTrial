@@ -20,10 +20,10 @@ public class TeleOpTest extends UscOpMode {
         double currentY;
 
         double armTarget = 0;
-        boolean armActive = false;
+        boolean armPowered = false;
 
         while (opModeIsActive()) {
-           // Drive
+            // Drive
             telemetry.addData("Turn: ", -this.gamepad1.right_stick_x);
             telemetry.addData("Throttle: ", -this.gamepad1.left_stick_y);
             currentX = this.gamepad1.right_stick_x;
@@ -51,39 +51,42 @@ public class TeleOpTest extends UscOpMode {
                 backRight.setPower(strafeSpeedX);
             }
             // Arm
-            if (this.gamepad1.left_trigger > 0){
-                armTarget = 10;
-                armActive = true;
+            if (this.gamepad2.right_trigger > 0){
+                armPivot.setPower(0.5 * this.gamepad2.right_trigger);
+                armPowered = true;
             }
-            if (this.gamepad1.right_trigger > 0){
-                armTarget = 0;
-                armActive = true;
+            else if (this.gamepad2.left_trigger > 0){
+                armPivot.setPower(-0.05 * this.gamepad2.left_trigger);
+                armPowered = true;
             }
-            if (armActive) {
-                moveArmToward(armTarget);
+            else if (armPowered){
+                armPivot.setPower((armPivot.getVelocity()/Math.abs(armPivot.getVelocity())) * 0.05);
+                armPowered = false;
             }
-
-            if (this.gamepad1.y){
-                armSlide.setPower(-1.0);
-            }
-            else {
-                armSlide.setPower(0.0);
-            }
-            if (this.gamepad1.x){
-                armSlide.setPower(1.0);
+            if (this.gamepad2.x || this.gamepad2.dpad_down){ // Contract
+                armSlide.setVelocity(-3500);
             }
             else {
-                armSlide.setPower(0.0);
+                armSlide.setVelocity(0.0);
             }
-
+            if (this.gamepad2.y || this.gamepad2.dpad_up){ // Expand
+                armSlide.setVelocity(3500);
+            }
+            else {
+                armSlide.setVelocity(0.0);
+            }
+            if (this.gamepad2.a || this.gamepad2.left_bumper){
+                leftClaw.setPosition(LEFT_OPEN);
+                rightClaw.setPosition(RIGHT_OPEN);
+            }
+            if (this.gamepad2.b || this.gamepad2.right_bumper){
+                leftClaw.setPosition(LEFT_CLOSE);
+                rightClaw.setPosition(RIGHT_CLOSE);
+            }
             telemetry.addLine("Arm pivot position: " + armPivot.getCurrentPosition());
             telemetry.addLine("Arm slide position: " + armSlide.getCurrentPosition());
 
-            ArrayList<Orientation> detections = updatePos();
-            telemetry.addLine(robotPos.toString());
-            for(Orientation detection : detections){
-                telemetry.addLine(Double.toString(detection.firstAngle) + ", " + Double.toString(detection.secondAngle) + ", " + Double.toString(detection.thirdAngle));
-            }
+
             telemetry.update();
         }
     }
