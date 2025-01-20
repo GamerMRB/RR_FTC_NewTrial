@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetArm extends Instruction{
     /**
-     * Number of ticks to go
+     * Angle to go
      */
     double theta;
     public SetArm(double theta) {
