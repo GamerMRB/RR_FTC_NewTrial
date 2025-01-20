@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
-public class SetArm extends Instruction{
+public class SetArmAngle extends Instruction{
     /**
      * Number of ticks to go
      */
     double theta;
-    public SetArm(double theta) {
+    public SetArmAngle(double theta) {
         this.theta = theta;
     }
 
