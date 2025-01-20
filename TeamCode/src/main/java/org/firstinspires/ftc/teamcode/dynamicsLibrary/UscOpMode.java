@@ -102,10 +102,10 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
     protected void setUpDirections(){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
     public void setUpDrivetrain() {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft"); // Motor 0
