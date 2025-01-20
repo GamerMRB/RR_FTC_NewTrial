@@ -11,6 +11,6 @@ public class Wait extends Instruction{
         targetTime = System.nanoTime() + time;
     }
     public boolean update(){
-        return (System.nanoTime() > targetTime);
+        return System.nanoTime() > targetTime;
     }
 }
