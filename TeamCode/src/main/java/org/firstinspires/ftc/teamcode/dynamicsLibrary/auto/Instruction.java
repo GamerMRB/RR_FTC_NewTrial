@@ -7,4 +7,5 @@ public class Instruction {
     public boolean update(UscOpMode opMode){
         return true;
     }
+    public void end(UscOpMode opMode){}
 }
