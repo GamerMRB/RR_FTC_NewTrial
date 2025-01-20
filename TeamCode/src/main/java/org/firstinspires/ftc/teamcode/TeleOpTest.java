@@ -15,7 +15,6 @@ public class TeleOpTest extends UscOpMode {
         setUpHardware();
         waitForStart();
         double speedX = 0.75 * SPEED_MAX;
-        double strafeSpeedX = STRAFE_SPEED;
         double currentX;
         double currentY;
 
@@ -23,33 +22,14 @@ public class TeleOpTest extends UscOpMode {
         boolean armPowered = false;
 
         while (opModeIsActive()) {
-           // Drive
-            telemetry.addData("Turn: ", -this.gamepad1.right_stick_x);
-            telemetry.addData("Throttle: ", -this.gamepad1.left_stick_y);
-            currentX = this.gamepad1.right_stick_x;
-            currentY = this.gamepad1.left_stick_y;
-            double throttle = -currentY * speedX;
-            // Allow second stick to turn also
-            double turn = currentX * speedX / 2.0;
-            double leftSpeed = -1 * (throttle + turn);
-            double rightSpeed = throttle - turn;
-            frontLeft.setPower(leftSpeed);
-            backLeft.setPower(leftSpeed);
-            frontRight.setPower(rightSpeed);
-            backRight.setPower(rightSpeed);
-            // Strafe
-            if (this.gamepad1.left_bumper) {
-                frontLeft.setPower(strafeSpeedX);
-                frontRight.setPower(strafeSpeedX);
-                backLeft.setPower(-strafeSpeedX);
-                backRight.setPower(-strafeSpeedX);
-            }
-            if (this.gamepad1.right_bumper) {
-                frontLeft.setPower(-strafeSpeedX);
-                frontRight.setPower(-strafeSpeedX);
-                backLeft.setPower(strafeSpeedX);
-                backRight.setPower(strafeSpeedX);
-            }
+            // Drive
+            telemetry.addData("Turn: ", this.gamepad1.right_stick_x);
+            telemetry.addData("Throttle: ", this.gamepad1.left_stick_y);
+            pow(
+                    -speedX*gamepad1.left_stick_y,
+                    speedX*((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0)),
+                    -speedX*gamepad1.right_stick_x
+            );
             // Arm
             if (this.gamepad2.right_trigger > 0){
                 armPivot.setPower(0.5 * this.gamepad2.right_trigger);

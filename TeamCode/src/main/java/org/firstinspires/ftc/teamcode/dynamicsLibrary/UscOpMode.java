@@ -59,7 +59,7 @@ public abstract class UscOpMode extends LinearOpMode {
     protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
     protected final double MIN_ARM_LENGTH = 10.375;
     protected final double LEFT_CLOSE = 0.75;
-    protected final double RIGHT_CLOSE = 0.35 ;
+    protected final double RIGHT_CLOSE = 0.3 ;
     protected final double LEFT_OPEN = 0.45;
     protected final double RIGHT_OPEN = 0.60;
 
@@ -102,8 +102,8 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
     protected void setUpDirections(){
-        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         backRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
@@ -188,7 +188,7 @@ public abstract class UscOpMode extends LinearOpMode {
 
 
     protected void pow(double forward, double side, double rot){
-        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(forward));
+        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(rot));
         frontLeft.setPower((forward - side - rot) / maxPow);
         frontRight.setPower((forward + side + rot) / maxPow);
         backLeft.setPower((forward + side - rot) / maxPow);
