@@ -240,24 +240,7 @@ public abstract class UscOpMode extends LinearOpMode {
             then = now;
         }
     }
-//    protected void moveTo(Vec2 target){
-//        Vec2 diff = target.sub(robotPos.disp).unit();
-//        double angle;
-//        double sin;
-//        double cos;
-//        while (diff.mag() >= 1.5) {
-//            diff = target.sub(robotPos.disp).unit();
-//            angle = diff.angle(robotPos.rot);
-//            sin = Math.sin(angle);
-//            cos = Math.cos(angle);
-//            frontLeft.setPower(sin + cos);
-//            frontRight.setPower(cos - sin);
-//            backLeft.setPower(cos - sin);
-//            backRight.setPower(sin + cos);
-//            updatePos();
-//        }
-//        setPower(0);
-//    }
+
 
     protected void calculateClaw(){
         clawPos = pivotPos.add(Vec3.v2z(robotPos.dir().mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
