@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
-import java.util.ArrayList;
-
-@TeleOp
-public class TeleOpTest extends UscOpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp
+public class TeleOp extends UscOpMode {
 
     public void runOpMode() {
         setUpHardware();
@@ -26,9 +20,9 @@ public class TeleOpTest extends UscOpMode {
             telemetry.addData("Turn: ", this.gamepad1.right_stick_x);
             telemetry.addData("Throttle: ", this.gamepad1.left_stick_y);
             pow(
-                    -speedX*gamepad1.left_stick_y,
+                    -speedX*scaleMovement(gamepad1.left_stick_y),
                     speedX*((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0)),
-                    -speedX*gamepad1.right_stick_x
+                    -speedX*scaleMovement(gamepad1.right_stick_x)
             );
             // Arm
             if (this.gamepad2.right_trigger > 0){

@@ -21,47 +21,48 @@ import java.util.ArrayList;
 
 public abstract class UscOpMode extends LinearOpMode {
 
-    protected DcMotorEx frontLeft;
-    protected DcMotorEx frontRight;
-    protected DcMotorEx backLeft;
-    protected DcMotorEx backRight;
-    protected DcMotorEx armPivot;
-    protected DcMotorEx armSlide;
-    protected Servo leftClaw;
-    protected Servo rightClaw;
+    public DcMotorEx frontLeft;
+    public DcMotorEx frontRight;
+    public DcMotorEx backLeft;
+    public DcMotorEx backRight;
+    public DcMotorEx armPivot;
+    public DcMotorEx armSlide;
+    public Servo leftClaw;
+    public Servo rightClaw;
 
-    protected static Camera[] cameras = {
+    public static Camera[] cameras = {
     };
-    protected WebcamName camera1;
-    protected WebcamName camera2;
-    protected WebcamName camera3;
-    protected VisionPortal visionPortal;
-    protected VisionPortal visionPortal2;
-    protected VisionPortal visionPortal3;
+    public WebcamName camera1;
+    public WebcamName camera2;
+    public WebcamName camera3;
+    public VisionPortal visionPortal;
+    public VisionPortal visionPortal2;
+    public VisionPortal visionPortal3;
 
-    protected Position robotPos = Position.xyr(0, 0, 0);
-    protected Vec3 clawPos;
-    protected double armAngle;
-    protected double armLength;
-    protected PID2 movementPID = new PID2(1, 0, 0);
-    protected PID rotationPID = new PID(1, 0, 0);
+    public Position robotPos = Position.xyr(0, 0, 0);
+    public Vec3 clawPos;
+    public double armAngle;
+    public double armLength;
+    public PID2 movementPID = new PID2(1, 0, 0);
+    public PID rotationPID = new PID(1, 0, 0);
 
-    protected PID armPID = new PID(1, 0, 0);
-    protected double armThen = 0;
-    protected boolean armDisabled = true;
+    public PID armPID = new PID(1, 0, 0);
+    public double armThen = 0;
+    public boolean armDisabled = true;
 
-    protected final double WHEEL_DIAMETER = 96.0;
-    protected final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-    protected final double TICKS_PER_REVOLUTION = 538;
-    protected final double SPEED_MAX = 1.0;
-    protected final double STRAFE_SPEED = 0.75;
-    protected final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
-    protected final double INITIAL_ARM_ANGLE = - Math.PI/4;
-    protected final double MIN_ARM_LENGTH = 10.375;
-    protected final double LEFT_CLOSE = 0.75;
-    protected final double RIGHT_CLOSE = 0.3 ;
-    protected final double LEFT_OPEN = 0.45;
-    protected final double RIGHT_OPEN = 0.60;
+    public final double WHEEL_DIAMETER = 96.0;
+    public final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+    public final double TICKS_PER_REVOLUTION = 538;
+    public final double SPEED_MAX = 1.0;
+    public final double STRAFE_SPEED = 0.75;
+    public final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
+    public final double INITIAL_ARM_ANGLE = - Math.PI/4;
+    public final double MIN_ARM_LENGTH = 10.375;
+    public final double LEFT_CLOSE = 0.75;
+    public final double RIGHT_CLOSE = 0.3 ;
+    public final double LEFT_OPEN = 0.45;
+    public final double RIGHT_OPEN = 0.60;
+    public final double MAX_VELOCITY = 1500;
 
 
 
@@ -239,24 +240,7 @@ public abstract class UscOpMode extends LinearOpMode {
             then = now;
         }
     }
-//    protected void moveTo(Vec2 target){
-//        Vec2 diff = target.sub(robotPos.disp).unit();
-//        double angle;
-//        double sin;
-//        double cos;
-//        while (diff.mag() >= 1.5) {
-//            diff = target.sub(robotPos.disp).unit();
-//            angle = diff.angle(robotPos.rot);
-//            sin = Math.sin(angle);
-//            cos = Math.cos(angle);
-//            frontLeft.setPower(sin + cos);
-//            frontRight.setPower(cos - sin);
-//            backLeft.setPower(cos - sin);
-//            backRight.setPower(sin + cos);
-//            updatePos();
-//        }
-//        setPower(0);
-//    }
+
 
     protected void calculateClaw(){
         clawPos = pivotPos.add(Vec3.v2z(robotPos.dir().mult(armLength * Math.cos(armAngle)) , armLength * Math.sin(armAngle)));
