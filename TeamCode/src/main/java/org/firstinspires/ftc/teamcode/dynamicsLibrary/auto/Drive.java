@@ -19,4 +19,8 @@ public class Drive extends Instruction {
 
         return (Math.abs(((avgPos / opMode.TICKS_PER_REVOLUTION) * opMode.WHEEL_CIRCUMFERENCE) - (diff.mag() * Math.cos(angle))) <= 10);
     }
+    public void end(UscOpMode opMode){
+        opMode.pow(0,0,0);
+    }
 }
+
