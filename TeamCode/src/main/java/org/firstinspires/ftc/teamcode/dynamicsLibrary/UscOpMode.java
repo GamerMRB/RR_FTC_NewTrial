@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Instruction;
 import org.firstinspires.ftc.vision.*;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -265,4 +266,14 @@ public abstract class UscOpMode extends LinearOpMode {
         return Math.pow(Math.sin((Math.PI * vIn) / 2), 3);
     }
 
+    void executeInstructions(Instruction[] instructions){
+        for(Instruction instruction : instructions){
+            instruction.start(this);
+            boolean done = false;
+            while(!done){
+                done = instruction.update(this);
+            }
+            instruction.end(this);
+        }
+    }
 }
