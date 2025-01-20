@@ -9,6 +9,6 @@ public class Drive extends Instruction {
         this.diff = diff;
     }
     public boolean update(UscOpMode opMode){
-
+        return true;
     }
 }
