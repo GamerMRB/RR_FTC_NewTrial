@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetClaw extends Instruction {
