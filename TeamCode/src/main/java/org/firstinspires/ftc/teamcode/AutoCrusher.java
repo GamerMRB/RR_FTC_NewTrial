@@ -20,8 +20,10 @@ import java.util.Map;
 public class AutoCrusher extends UscOpMode {
 
     public void runOpMode() {
-        Instruction drive = new Drive(Vec2.xy(7,4));
-        drive.update(this);
-
+//        Instruction[] instructions = {
+//                new Drive(Vec2.xy(7,4)),
+//                new SetClaw(true),
+//        };
+//        executeInstructions(instructions);
     }
 }
