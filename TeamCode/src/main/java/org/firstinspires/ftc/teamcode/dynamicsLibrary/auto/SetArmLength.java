@@ -10,7 +10,8 @@ public class SetArmLength extends Instruction{
         targetPos = length;
     }
     public void start(UscOpMode opMode) {
-        opMode.armSlide.setTargetPosition((targetPos));
+        opMode.armSlide.setPower(1);
+        opMode.armSlide.setTargetPosition((int) ((targetPos) * 538 / (2 * Math.PI)));
         opMode.armSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public boolean update(UscOpMode opMode){
