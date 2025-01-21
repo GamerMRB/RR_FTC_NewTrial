@@ -30,6 +30,7 @@ public abstract class UscOpMode extends LinearOpMode {
     public DcMotorEx backRight;
     public DcMotorEx armPivot;
     public DcMotorEx armSlide;
+    public DcMotorEx[] drivetrain = {frontLeft, frontRight, backLeft, backRight};
     public Servo leftClaw;
     public Servo rightClaw;
 
@@ -73,7 +74,7 @@ public abstract class UscOpMode extends LinearOpMode {
         setUpDrivetrain();
         setUpCameras();
         setUpArm();
-        setUpImu();
+//        setUpImu();
 
     }
 
@@ -133,6 +134,10 @@ public abstract class UscOpMode extends LinearOpMode {
         backRight.setZeroPowerBehavior(BRAKE);
         frontRight.setZeroPowerBehavior(BRAKE);
         frontLeft.setZeroPowerBehavior(BRAKE);
+        drivetrain[0]=frontLeft;
+        drivetrain[1]=frontRight;
+        drivetrain[2]=backLeft;
+        drivetrain[3]=backRight;
         setUpDirections();
     }
     public void setUpArm(){
