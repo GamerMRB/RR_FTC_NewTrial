@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetTurn extends Instruction {
     /**
-     * Negative radians is right, and positive radians is left (If theta is negative, PLEASE PLEASE PLEASE make direction negative)
+     * Negative radians is right, and positive radians is left (If theta is negative, PLEASE PLEASE PLEASE make direction negative(same with positive))
      */
     double theta;
     double imuHeading;
