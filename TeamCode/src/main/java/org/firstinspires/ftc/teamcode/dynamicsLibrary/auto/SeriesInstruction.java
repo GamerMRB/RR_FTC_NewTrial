@@ -6,7 +6,7 @@ public class SeriesInstruction extends Instruction {
     Instruction[] instructions;
     int instructionIndex = 0;
     boolean startInstruction = true;
-    SeriesInstruction(Instruction[] instructions){
+    public SeriesInstruction(Instruction[] instructions){
         this.instructions = instructions;
     }
     public boolean update(UscOpMode opMode){
