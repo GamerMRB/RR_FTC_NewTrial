@@ -266,11 +266,11 @@ public abstract class UscOpMode extends LinearOpMode {
         return Math.pow(Math.sin((Math.PI * vIn) / 2), 3);
     }
 
-    void executeInstructions(Instruction[] instructions){
+    public void executeInstructions(Instruction[] instructions){
         for(Instruction instruction : instructions){
             instruction.start(this);
             boolean done = false;
-            while(!done){
+            while(!done && opModeIsActive()){
                 done = instruction.update(this);
             }
             instruction.end(this);
