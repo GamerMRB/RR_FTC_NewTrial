@@ -19,6 +19,6 @@ public class SetArmAngle extends Instruction{
     }
 
     public boolean update(UscOpMode opMode) {
-        return opMode.armPivot.isBusy();
+        return !opMode.armPivot.isBusy();
     }
 }
