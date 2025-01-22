@@ -74,12 +74,12 @@ public abstract class UscOpMode extends LinearOpMode {
         setUpDrivetrain();
         setUpCameras();
         setUpArm();
-//        setUpImu();
+        setUpImu();
 
     }
 
     public void setUpImu() {
-        hardwareMap.get(IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
