@@ -11,17 +11,23 @@ public class SetTurn extends Instruction {
      */
     double theta;
     double imuHeading;
-    int direction;
-    public SetTurn(double theta, int direction) {
+    public SetTurn(double theta) {
         this.theta = theta;
-        this.direction = direction;
     }
 
     public void start(UscOpMode opMode) {
-        opMode.frontLeft.setPower(-direction);
-        opMode.frontRight.setPower(direction);
-        opMode.backLeft.setPower(-direction);
-        opMode.backRight.setPower(direction);
+        if (theta > 0) {
+            opMode.frontLeft.setPower(-1);
+            opMode.frontRight.setPower(1);
+            opMode.backLeft.setPower(-1);
+            opMode.backRight.setPower(1);
+        } else {
+            opMode.frontLeft.setPower(1);
+            opMode.frontRight.setPower(-1);
+            opMode.backLeft.setPower(1);
+            opMode.backRight.setPower(-1);
+        }
+
     }
 
     public boolean update(UscOpMode opMode) {
