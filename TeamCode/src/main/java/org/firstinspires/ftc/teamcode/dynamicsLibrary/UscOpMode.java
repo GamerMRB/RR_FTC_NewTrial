@@ -43,7 +43,7 @@ public abstract class UscOpMode extends LinearOpMode {
     public VisionPortal visionPortal2;
     public VisionPortal visionPortal3;
 
-    public Position robotPos = Position.xyr(0, 0, 0);
+    public Position robotPos = Position.xya(0, 0, 0);
     public Vec3 clawPos;
     public double armAngle;
     public double armLength;
@@ -104,17 +104,17 @@ public abstract class UscOpMode extends LinearOpMode {
         for(Camera camera : cameras){
             ArrayList<AprilTagDetection> detections = camera.processor.getDetections();
             for(AprilTagDetection detection : detections){
-                Position tag = Position.xyr(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1), 0);
+                Position tag = Position.xya(detection.metadata.fieldPosition.get(0), detection.metadata.fieldPosition.get(1), 0);
                 orientations.add(detection.metadata.fieldOrientation.toOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.RADIANS));
-                Position cam = tag.remove(Position.xyr(detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
-                Position robot = cam.remove(camera.pos);
+                Position cam = tag.subtract(Position.xya(detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.yaw));
+                Position robot = cam.subtract(camera.pos);
                 pos = pos.add(robot.disp);
-                dir = dir.add(robot.rot);
+                dir = dir.add(robot.angle);
             }
             tagCount += detections.size();
         }
         if(tagCount > 0) {
-            robotPos = Position.vr(pos.div(tagCount), dir.angle());
+            robotPos = Position.va(pos.div(tagCount), dir.angle());
         }
         return orientations;
     }
@@ -209,18 +209,45 @@ public abstract class UscOpMode extends LinearOpMode {
     }
 
 
-    public void pow(double forward, double side, double rot){
-        double maxPow = Math.max(1, Math.abs(forward) + Math.abs(side) + Math.abs(rot));
-        frontLeft.setPower((forward - side - rot) / maxPow);
-        frontRight.setPower((forward + side + rot) / maxPow);
-        backLeft.setPower((forward + side - rot) / maxPow);
-        backRight.setPower((forward - side + rot) / maxPow);
+    public void pow(double fl, double fr, double bl, double br){
+        double maxPow = Math.max(1, Math.max(Math.max(fl, fr), Math.max(bl, br)));
+        frontLeft.setPower(fl / maxPow);
+        frontRight.setPower(fr / maxPow);
+        backLeft.setPower(bl / maxPow);
+        backRight.setPower(br / maxPow);
     }
-    protected void pow(Position position){
-        pow(position.disp.y, position.disp.x, position.rot);
+    public void pow(DrivetrainValues values){
+        pow(
+                values.fl,
+                values.fr,
+                values.bl,
+                values.br
+        );
+    }
+    public void pow(double forward, double side, double rot){
+        pow(
+                forward + side - rot,
+                forward - side + rot,
+                forward - side - rot,
+                forward + side + rot
+        );
     }
     protected void pow(Vec2 disp, double rot){
-        pow(disp.y, disp.x, rot);
+        pow(disp.x, disp.y, rot);
+    }
+    protected void pow(Position position){
+        pow(position.disp, position.angle);
+    }
+    public DrivetrainValues getEncoderReadings(){
+        return new DrivetrainValues(
+                frontLeft.getCurrentPosition(),
+                frontRight.getCurrentPosition(),
+                backLeft.getCurrentPosition(),
+                backRight.getCurrentPosition()
+        );
+    }
+    public double getYaw(){
+        return (imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS)).firstAngle;
     }
 
     protected void movementPowerDisable() {
@@ -236,10 +263,10 @@ public abstract class UscOpMode extends LinearOpMode {
         backLeft.setMotorEnable();
         backRight.setMotorEnable();
     }
-    protected double mod(double a, double b){
-        return a - b*Math.floor(a / b);
+    public double mod(double dividend, double divisor){
+        return dividend - divisor*Math.floor(dividend / divisor);
     }
-    protected double simplifyAngle(double angle){
+    public double simplifyAngle(double angle){
         return mod(angle + Math.PI, 2*Math.PI) - Math.PI;
     }
     protected void moveTo(Position position){
@@ -249,12 +276,12 @@ public abstract class UscOpMode extends LinearOpMode {
         double then = (double) System.currentTimeMillis() / 1000;
         while(
                 diff.disp.mag() >= posAllowance ||
-                Math.abs(simplifyAngle(diff.rot)) >= angAllowance
+                Math.abs(simplifyAngle(diff.angle)) >= angAllowance
         ){
             double now = getRuntime();
             double dt = now - then;
             movementPID.update(diff.disp, dt);
-            rotationPID.update(simplifyAngle(diff.rot), dt);
+            rotationPID.update(simplifyAngle(diff.angle), dt);
             pow(movementPID.getPow(), rotationPID.getPow());
             updatePos();
             diff = robotPos.difference(position);

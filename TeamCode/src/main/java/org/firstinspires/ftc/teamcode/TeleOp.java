@@ -21,7 +21,7 @@ public class TeleOp extends UscOpMode {
             telemetry.addData("Throttle: ", this.gamepad1.left_stick_y);
             pow(
                     -speedX*scaleMovement(gamepad1.left_stick_y),
-                    speedX*((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0)),
+                    -speedX*((gamepad1.right_bumper ? 1 : 0) - (gamepad1.left_bumper ? 1 : 0)),
                     -speedX*scaleMovement(gamepad1.right_stick_x)
             );
             // Arm
