@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetTurn extends Instruction {
     /**
-     * Negative radians is right, and positive radians is left (If theta is negative, PLEASE PLEASE PLEASE make direction negative(same with positive))
+     * Negative radians is right, and positive radians is left
      */
     double theta;
     double deltaEpsilon;
@@ -23,11 +23,11 @@ public class SetTurn extends Instruction {
         deltaEpsilon = opMode.simplifyAngle(theta - opMode.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
 
         if (deltaEpsilon > 0) {
-            opMode.frontLeft.setPower(-0.5);
-            opMode.frontRight.setPower(0.5);
-            opMode.backLeft.setPower(-0.5);
-            opMode.backRight.setPower(0.5);
-            if (deltaEpsilon <= deltaEpsilon / 3) {
+            opMode.frontLeft.setPower(-1);
+            opMode.frontRight.setPower(1);
+            opMode.backLeft.setPower(-1);
+            opMode.backRight.setPower(1);
+            if (deltaEpsilon <= theta / 3) {
                 for (int i = 2; i <= 16; i*= 2) {
                     opMode.frontLeft.setPower(-0.5 / i);
                     opMode.frontRight.setPower(0.5 / i);
@@ -36,11 +36,11 @@ public class SetTurn extends Instruction {
                 }
             }
         } else {
-            opMode.frontLeft.setPower(0.5);
-            opMode.frontRight.setPower(-0.5);
-            opMode.backLeft.setPower(0.5);
-            opMode.backRight.setPower(-0.5);
-            if (deltaEpsilon <= deltaEpsilon / 3) {
+            opMode.frontLeft.setPower(1);
+            opMode.frontRight.setPower(-1);
+            opMode.backLeft.setPower(1);
+            opMode.backRight.setPower(-1);
+            if (deltaEpsilon <= theta / 3) {
                 for (int i = 2; i <= 16; i*= 2) {
                     opMode.frontLeft.setPower(0.5 / i);
                     opMode.frontRight.setPower(-0.5 / i);
@@ -54,6 +54,6 @@ public class SetTurn extends Instruction {
         opMode.telemetry.addData("Heading", deltaEpsilon);
         opMode.telemetry.update();
 
-        return Math.abs(deltaEpsilon) <= 0.25 ;
+        return Math.abs(deltaEpsilon) == 0 ;
     }
 }
