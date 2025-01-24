@@ -16,10 +16,9 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.MoveArm;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmAngle;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmLength;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetClaw;
+import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetTurn;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Wait;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Autonomous
 public class AutoCrusher extends UscOpMode {
@@ -29,11 +28,12 @@ public class AutoCrusher extends UscOpMode {
         waitForStart();
 
         Instruction[] instructions = {
-                new Drive(Vec2.xy(718,-2648)),
-                new SetClaw(true),
+//                new Drive(Vec2.xy(718,-2648)),
+//                new SetClaw(true),
 //                new MoveArm(Vec2.polar(100, 1)),
-//                new SetArmAngle(2.7),
-//                new SetArmLength(48),
+//                new SetArmAngle(10),
+//                new SetArmLength(20),
+                new SetTurn(Math.PI / 2)
 //                new Wait((long) (4*Math.pow(10, 9))),
 //                new MoveArm(Vec2.polar(0, 0)),
         };

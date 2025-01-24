@@ -14,6 +14,7 @@ public class SetArmAngle extends Instruction{
     }
 
     public void start(UscOpMode opMode) {
+        opMode.armPivot.setPower(0.5);
         opMode.armPivot.setTargetPosition((int) (theta * 538 / (2 * Math.PI)));
         opMode.armPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
