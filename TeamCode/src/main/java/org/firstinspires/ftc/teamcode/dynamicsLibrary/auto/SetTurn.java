@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetTurn extends Instruction {
@@ -29,10 +27,10 @@ public class SetTurn extends Instruction {
             opMode.backRight.setPower(1);
             if (deltaEpsilon <= theta / 3) {
                 for (int i = 2; i <= 16; i*= 2) {
-                    opMode.frontLeft.setPower(-0.5 / i);
-                    opMode.frontRight.setPower(0.5 / i);
-                    opMode.backLeft.setPower(-0.5 / i);
-                    opMode.backRight.setPower(0.5 / i);
+                    opMode.frontLeft.setPower((double) -1 / i);
+                    opMode.frontRight.setPower((double) 1 / i);
+                    opMode.backLeft.setPower((double) -1 / i);
+                    opMode.backRight.setPower((double) 1 / i);
                 }
             }
         } else {
@@ -42,10 +40,10 @@ public class SetTurn extends Instruction {
             opMode.backRight.setPower(-1);
             if (deltaEpsilon <= theta / 3) {
                 for (int i = 2; i <= 16; i*= 2) {
-                    opMode.frontLeft.setPower(0.5 / i);
-                    opMode.frontRight.setPower(-0.5 / i);
-                    opMode.backLeft.setPower(0.5 / i);
-                    opMode.backRight.setPower(-0.5 / i);
+                    opMode.frontLeft.setPower((double) 1 / i);
+                    opMode.frontRight.setPower((double) -1 / i);
+                    opMode.backLeft.setPower((double) 1 / i);
+                    opMode.backRight.setPower((double) -1 / i);
                 }
             }
         }
@@ -54,6 +52,6 @@ public class SetTurn extends Instruction {
         opMode.telemetry.addData("Heading", deltaEpsilon);
         opMode.telemetry.update();
 
-        return Math.abs(deltaEpsilon) == 0 ;
+        return Math.abs(deltaEpsilon) == 0;
     }
 }
