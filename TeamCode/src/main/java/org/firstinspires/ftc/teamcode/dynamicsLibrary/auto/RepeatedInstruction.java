@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
-public class RepeatInstruction {
+public class RepeatedInstruction {
     int count;
     Instruction instruction;
 
     int instructionIndex = 0;
     boolean startInstruction = true;
 
-    public RepeatInstruction(Instruction instruction, int count){
+    public RepeatedInstruction(Instruction instruction, int count){
         this.count = count;
         this.instruction = instruction;
     }
