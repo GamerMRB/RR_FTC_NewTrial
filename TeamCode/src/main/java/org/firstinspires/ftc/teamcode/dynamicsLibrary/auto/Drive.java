@@ -17,25 +17,23 @@ public class Drive extends Instruction {
     }
     // TODO: Make it so that this only has to do one movement to get to final position
     public void start(UscOpMode opMode){
-        int targetPos = (int) diff.x;
+        int ticks = (int) (((diff.x / (opMode.WHEEL_DIAMETER / 2)) / (2 * Math.PI)) * opMode.TICKS_PER_REVOLUTION);
         for (DcMotorEx motor: opMode.drivetrain){
-            motor.setTargetPosition(motor.getCurrentPosition() + targetPos);
+            motor.setTargetPosition(motor.getCurrentPosition() + ticks);
             motor.setPower(0.75);
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
     public boolean update(UscOpMode opMode){
         if (opMode.frontLeft.isBusy() && !strafeActive){
-            opMode.telemetry.addData("Drive Operation:", "Driving...");
-            opMode.telemetry.update();
             return false;
         }
         else if(!opMode.frontLeft.isBusy() && !strafeActive){
-            int targetPos = (int)diff.y;
-            opMode.frontLeft.setTargetPosition(opMode.frontLeft.getCurrentPosition() + targetPos);
-            opMode.frontRight.setTargetPosition(opMode.frontRight.getCurrentPosition() - targetPos);
-            opMode.backLeft.setTargetPosition(opMode.backLeft.getCurrentPosition() - targetPos);
-            opMode.backRight.setTargetPosition(opMode.backRight.getCurrentPosition() + targetPos);
+            int ticks = (int) (((diff.y / (opMode.WHEEL_DIAMETER / 2)) / (2 * Math.PI)) * opMode.TICKS_PER_REVOLUTION);
+            opMode.frontLeft.setTargetPosition(opMode.frontLeft.getCurrentPosition() + ticks);
+            opMode.frontRight.setTargetPosition(opMode.frontRight.getCurrentPosition() - ticks);
+            opMode.backLeft.setTargetPosition(opMode.backLeft.getCurrentPosition() - ticks);
+            opMode.backRight.setTargetPosition(opMode.backRight.getCurrentPosition() + ticks);
             for (DcMotorEx motor: opMode.drivetrain){
                 motor.setPower(0.75);
                 motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -43,17 +41,9 @@ public class Drive extends Instruction {
             strafeActive = true;
             return false;
         }
-        else if (opMode.frontLeft.isBusy() && strafeActive){
-            opMode.telemetry.addData("Drive Operation:", "Strafing...");
-            opMode.telemetry.update();
-            return false;
-        }
-        else{
-            return true;
-        }
+        else return !opMode.frontLeft.isBusy() || !strafeActive;
     }
     public void end(UscOpMode opMode){
-        opMode.telemetry.addData("Drive Operation:", "Finished");
         opMode.pow(0,0,0);
     }
 }
