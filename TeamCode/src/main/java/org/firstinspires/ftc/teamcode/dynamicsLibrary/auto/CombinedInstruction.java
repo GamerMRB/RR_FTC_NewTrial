@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class CombinedInstruction extends Instruction {
     Instruction[] instructions;
     boolean[] instructionsFinished;
-    CombinedInstruction(Instruction[] instructions){
+    public CombinedInstruction(Instruction[] instructions){
         this.instructions = instructions;
         instructionsFinished = new boolean[this.instructions.length];
     }

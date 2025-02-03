@@ -28,6 +28,9 @@ public class TeleOp extends UscOpMode {
             if (this.gamepad2.right_trigger > 0){
                 armPivot.setPower(0.5 * this.gamepad2.right_trigger);
                 armPowered = true;
+                if (armPivot.getCurrentPosition() / TICKS_PER_REVOLUTION * 360 > 120) {
+                    armPivot.setPower(0);
+                }
             }
             else if (this.gamepad2.left_trigger > 0){
                 armPivot.setPower(-0.05 * this.gamepad2.left_trigger);
