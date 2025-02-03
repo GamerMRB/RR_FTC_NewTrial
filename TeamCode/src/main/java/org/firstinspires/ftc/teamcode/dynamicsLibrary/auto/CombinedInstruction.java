@@ -10,10 +10,10 @@ public class CombinedInstruction extends Instruction {
     CombinedInstruction(Instruction[] instructions){
         this.instructions = instructions;
         instructionsFinished = new boolean[this.instructions.length];
-        Arrays.fill(instructionsFinished, false);
     }
 
     public void start(UscOpMode opMode) {
+        Arrays.fill(instructionsFinished, false);
         for(Instruction instruction : instructions){
             instruction.start(opMode);
         }
