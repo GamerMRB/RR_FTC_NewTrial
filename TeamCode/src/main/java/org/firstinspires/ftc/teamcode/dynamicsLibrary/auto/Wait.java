@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
+import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
+
 public class Wait extends Instruction{
     long time;
     long targetTime;
@@ -7,10 +9,11 @@ public class Wait extends Instruction{
         this.time = nanoTime;
     }
 
-    public void start(){
+    public void start(UscOpMode opMode){
         targetTime = System.nanoTime() + time;
     }
-    public boolean update(){
+    public boolean update(UscOpMode opMode){
+
         return System.nanoTime() > targetTime;
     }
 }

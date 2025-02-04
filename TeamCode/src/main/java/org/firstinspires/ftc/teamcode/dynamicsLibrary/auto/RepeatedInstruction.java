@@ -19,7 +19,7 @@ public class RepeatedInstruction extends Instruction{
         startInstruction = true;
     }
 
-    public boolean Update(UscOpMode opMode){
+    public boolean update(UscOpMode opMode){
         if(startInstruction){
             if(instructionIndex == count){
                 return true;
