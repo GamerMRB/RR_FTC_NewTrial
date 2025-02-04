@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
-public class RepeatedInstruction {
+public class RepeatedInstruction extends Instruction{
     int count;
     Instruction instruction;
 
