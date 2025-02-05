@@ -17,9 +17,4 @@ public class SetArmLength extends Instruction{
     public boolean update(UscOpMode opMode){
         return !opMode.armSlide.isBusy();
     }
-
-    public void end(UscOpMode opMode) {
-        opMode.armSlide.setPower(0);
-        opMode.armSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
 }
