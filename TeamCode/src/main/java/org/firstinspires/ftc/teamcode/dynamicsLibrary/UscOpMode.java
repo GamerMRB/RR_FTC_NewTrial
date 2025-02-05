@@ -173,44 +173,17 @@ public abstract class UscOpMode extends LinearOpMode {
         super.waitForStart();
     }
 
-    protected void resetMotors() {
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
 
-
-    protected void setRunToPosition() {
-        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    protected void setPower(double power){
-        frontLeft.setPower(power);
-        backLeft.setPower(power);
-        frontRight.setPower(power);
-        backRight.setPower(power);
-    }
-    protected void setVelocity(double velocity) {
-        frontLeft.setVelocity(velocity);
-        backLeft.setVelocity(velocity);
-        frontRight.setVelocity(velocity);
-        backRight.setVelocity(velocity);
-    }
-
-    protected void setTargetPosition(int numberOfTicks) {
-        frontLeft.setTargetPosition(numberOfTicks);
-        frontRight.setTargetPosition(numberOfTicks);
-        backLeft.setTargetPosition(numberOfTicks);
-        backRight.setTargetPosition(numberOfTicks);
+    public void setRunMode(DcMotor.RunMode runMode) {
+        frontLeft.setMode(runMode);
+        frontRight.setMode(runMode);
+        backLeft.setMode(runMode);
+        backRight.setMode(runMode);
     }
 
 
     public void pow(double fl, double fr, double bl, double br){
-        double maxPow = Math.max(1, Math.max(Math.max(fl, fr), Math.max(bl, br)));
+        double maxPow = Math.max(1, Math.max(Math.max(Math.abs(fl), Math.abs(fr)), Math.max(Math.abs(bl), Math.abs(br))));
         frontLeft.setPower(fl / maxPow);
         frontRight.setPower(fr / maxPow);
         backLeft.setPower(bl / maxPow);
@@ -232,12 +205,43 @@ public abstract class UscOpMode extends LinearOpMode {
                 forward + side + rot
         );
     }
-    protected void pow(Vec2 disp, double rot){
+    public void pow(Vec2 disp, double rot){
         pow(disp.x, disp.y, rot);
     }
-    protected void pow(Position position){
+    public void pow(Position position){
         pow(position.disp, position.angle);
     }
+
+    public void vel(double fl, double fr, double bl, double br){
+        frontLeft.setVelocity(fl);
+        frontRight.setVelocity(fr);
+        backLeft.setVelocity(bl);
+        backRight.setVelocity(br);
+    }
+    public void vel(DrivetrainValues values){
+        vel(
+                values.fl,
+                values.fr,
+                values.bl,
+                values.br
+        );
+    }
+    public void vel(double forward, double side, double rot){
+        vel(
+                forward + side - rot,
+                forward - side + rot,
+                forward - side - rot,
+                forward + side + rot
+        );
+    }
+    public void vel(Vec2 disp, double rot){
+        vel(disp.x, disp.y, rot);
+    }
+    public void vel(Position position){
+        vel(position.disp, position.angle);
+    }
+
+
     public DrivetrainValues getEncoderReadings(){
         return new DrivetrainValues(
                 frontLeft.getCurrentPosition(),
