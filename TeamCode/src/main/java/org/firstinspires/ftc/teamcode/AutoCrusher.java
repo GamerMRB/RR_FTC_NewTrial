@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.CombinedInstruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Drive;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Instruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Log;
-import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.RepeatedInstruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SeriesInstruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmAngle;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmLength;
@@ -21,66 +20,13 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetTurn;
 @Autonomous
 public class AutoCrusher extends UscOpMode {
 
-    double iterator;
-
     public void runOpMode() {
         setUpHardware();
         waitForStart();
 
+
         armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        RepeatedInstruction twoX = new RepeatedInstruction(
-                new SeriesInstruction(new Instruction[] {
-                    new Log("Push first sample"),
-                    new Drive(xy(0,300)),
-                    new Drive(xy(-1372, 0)),
-                    new Drive(xy(1372, 0)),
-                }
-        ), 2);
-
-        RepeatedInstruction bulk = new RepeatedInstruction(
-                new SeriesInstruction(new Instruction[]{
-                        new CombinedInstruction(new Instruction[]{
-                                new Log("Position to grab specimen"),
-                                new SetTurn(Math.PI),
-                                new SetArmAngle(5),
-                        }),
-
-                        new CombinedInstruction(new Instruction[]{
-                                new Log("Prepare for scoring"),
-                                new SetClaw(true),
-                                new SetArmAngle(14.75),
-                                new SetArmLength(7),
-                                new SetTurn(Math.PI),
-                        }),
-
-
-                        new Log("Drive and score the specimen"),
-                        new SeriesInstruction(new Instruction[] {
-                                new Drive(xy(0, -1219 - iterator)),
-                                new Drive(xy(457, 0)),
-                        }),
-
-
-                        new CombinedInstruction(new Instruction[]{
-                                new Log("Drive back and reset"),
-                                new SeriesInstruction(new Instruction[]{
-                                    new Drive(xy(0, -1220)),
-                                    new Drive(xy(-750, 0)),
-                                }),
-                                new SetClaw(false),
-                                new SetArmLength(0),
-                        }),
-
-                        new Instruction() {
-                            @Override
-                            public void start(UscOpMode opMode) {
-                                iterator += 50;
-                            }
-                        }
-
-                }),4);
 
         Instruction[] instructions = {
                 //This is Project AlphaDelta. This executes 5 tasks with approximately 5 tasks within them to maintain readability. Good luck debugging.
@@ -89,47 +35,198 @@ public class AutoCrusher extends UscOpMode {
                 new SeriesInstruction(new Instruction[]{
 
                         new CombinedInstruction(new Instruction[]{
-                                new Log("Go to bar"),
+                                new Log("Attempt to hang first sample"),
                                 new SetClaw(true),
-                                new SetArmAngle(14.75),
-                                new SetArmLength(7),
+                                new SetArmAngle(10),
+                                new SetArmLength(25),
+                                new Drive(xy(300, 0)),
                         }),
 
-                        new Drive(xy(700, 0)),
-
                         new CombinedInstruction(new Instruction[]{
-                                new Log("Score sample"),
-                                new SetArmAngle(0),
-                                new SetArmLength(0),
+//                                new SetArmAngle(-5),
+                                new SetArmLength(1),
                                 new SetClaw(false),
                                 new Drive(xy(-300, 0)),
                         }),
 
-                        new Log("Get into pushing pos"),
+
                         new Drive(xy(0,850)),
-                        new Drive(xy(800,0)),
+                        new Drive(xy(760,0)),
 
                         //Sample Setup
                         new SeriesInstruction(new Instruction[]{
-                                new Log("Push two samples"),
-                                twoX,
+                                new Log("Attempting to push three samples"),
+                                new SeriesInstruction(new Instruction[]{
+                                        new Drive(xy(0,150)),
+                                        new Drive(xy(-1372, 0)),
+                                        new Drive(xy(1372, 0)),
+                                }),
 
-                                new Log("Push third sample"),
-                                new Drive(xy(0,300)),
-                                new Drive(xy(-1372, 0)),
-                                new Drive(xy(610, -610)),
+                                new SeriesInstruction(new Instruction[]{
+                                        new Drive(xy(0,150)),
+                                        new Drive(xy(-1372, 0)),
+                                        new Drive(xy(1372, 0)),
+                                }),
+
+                                new SeriesInstruction(new Instruction[]{
+                                        new Drive(xy(0,150)),
+                                        new Drive(xy(-1372, 0)),
+                                        new Drive(xy(610, -610)),
+                                }),
                         }),
-
                 }),
 
-                //Setup for bulk
-                new Log("Drive to the sample x2"),
-                new Drive(xy(-610, 0)),
 
-                //Second, Third, Fourth, Fifth Sample
-                bulk
+                //Second Sample
+                new SeriesInstruction(new Instruction[]{
+                        new CombinedInstruction(new Instruction[]{
+                                new Log("Attempt to hang second sample"),
+                                new SetTurn(Math.PI),
+                                new SetArmAngle(-5),
+                        }),
+
+                        new Drive(xy(0, -610)),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SetClaw(true),
+                                new SetArmAngle(6),
+                                new SetTurn(Math.PI),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SeriesInstruction(new Instruction[] {
+                                        new Drive(xy(0, -1219)),
+                                        new Drive(xy(457, 0)),
+                                }),
+                                new SetArmLength(10),
+                                new SetArmAngle(-6),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new Drive(xy(-150, 0)),
+                                new SetClaw(false),
+                                new SetArmLength(-10),
+                        }),
+
+                        new SeriesInstruction(new Instruction[]{
+                                new Drive(xy(0, -1220)),
+                                new Drive(xy(-600, 0)),
+                        }),
+                }),
+
+
+                //Third sample
+                new SeriesInstruction(new Instruction[]{
+                        new CombinedInstruction(new Instruction[]{
+                                new Log("Attempt to hang third sample"),
+                                new SetTurn(Math.PI),
+                                new SetArmAngle(-5),
+                        }),
+
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SetClaw(true),
+                                new SetArmAngle(6),
+                                new SetTurn(Math.PI),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SeriesInstruction(new Instruction[] {
+                                        new Drive(xy(0, -1219)),
+                                        new Drive(xy(457, 0)),
+                                }),
+                                new SetArmLength(10),
+                                new SetArmAngle(-6),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new Drive(xy(-150, 0)),
+                                new SetClaw(false),
+                                new SetArmLength(-10),
+                        }),
+
+                        new SeriesInstruction(new Instruction[]{
+                                new Drive(xy(0, -1220)),
+                                new Drive(xy(-600, 0)),
+                        }),
+                }),
+
+
+                //Fourth Sample
+                new SeriesInstruction(new Instruction[]{
+                        new CombinedInstruction(new Instruction[]{
+                                new Log("Attempt to hang fourth sample"),
+                                new SetTurn(Math.PI),
+                                new SetArmAngle(-5),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SetClaw(true),
+                                new SetArmAngle(6),
+                                new SetTurn(Math.PI),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SeriesInstruction(new Instruction[] {
+                                        new Drive(xy(0, -1219)),
+                                        new Drive(xy(457, 0)),
+                                }),
+                                new SetArmLength(10),
+                                new SetArmAngle(-6),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new Drive(xy(-150, 0)),
+                                new SetClaw(false),
+                                new SetArmLength(-10),
+                        }),
+
+                        new SeriesInstruction(new Instruction[]{
+                                new Drive(xy(0, -1220)),
+                                new Drive(xy(-600, 0)),
+                        }),
+                }),
+
+                //Fifth & Final Sample
+                new SeriesInstruction(new Instruction[]{
+                        new CombinedInstruction(new Instruction[]{
+                                new Log("Attempt to hang fifth sample"),
+                                new SetTurn(Math.PI),
+                                new SetArmAngle(-5),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SetClaw(true),
+                                new SetArmAngle(6),
+                                new SetTurn(Math.PI),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new SeriesInstruction(new Instruction[] {
+                                        new Drive(xy(0, -1219)),
+                                        new Drive(xy(457, 0)),
+                                }),
+                                new SetArmLength(10),
+                                new SetArmAngle(-6),
+                        }),
+
+                        new CombinedInstruction(new Instruction[]{
+                                new Drive(xy(-150, 0)),
+                                new SetClaw(false),
+                                new SetArmLength(-10),
+                        }),
+
+                        //Grand Finale
+                        new CombinedInstruction(new Instruction[]{
+                                new Log("Attempt to self destruct"),
+                                new SeriesInstruction(new Instruction[]{
+                                        new Drive(xy(0, -1220)),
+                                        new Drive(xy(-600, 0)),
+                                }),
+                        }),
+                })
+
         };
-
         executeInstructions(instructions);
     }
 }
