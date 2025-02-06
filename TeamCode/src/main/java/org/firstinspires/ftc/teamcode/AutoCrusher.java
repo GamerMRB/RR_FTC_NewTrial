@@ -109,7 +109,7 @@ public class AutoCrusher extends UscOpMode {
                             new Log("Drive back and reset"),
                             new SetClaw(false),
                             new SetArmLength(0),
-                            new Drive(xy(0, -1220)),
+                            new Drive(xy(0, -1220 + (i * 50))),
                             new Drive(xy(-750, 0)),
                     })
                 })
