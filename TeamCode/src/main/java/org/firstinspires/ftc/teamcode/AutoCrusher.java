@@ -32,23 +32,23 @@ public class AutoCrusher extends UscOpMode {
         ArrayList<Instruction> instructions = new ArrayList<>(Arrays.asList(
             //The Strat
             new CombinedInstruction(new Instruction[]{
-                    new Log("Go to bar and score sample"),
-                    new SetClaw(true),
-                    new SetArmAngle(14.75),
-                    new SetArmLength(7),
+                new Log("Go to bar and score sample"),
+                new SetClaw(true),
+                new SetArmAngle(14.75),
+                new SetArmLength(7),
             }),
 
             new Drive(xy(700, 0)),
 
             new CombinedInstruction(new Instruction[]{
-                    new Log("Setup pushing"),
-                    new SetArmAngle(0),
-                    new SetArmLength(0),
-                    new SetClaw(false),
-                    new SeriesInstruction(new Instruction[]{
-                        new Drive(xy(0, 850)),
-                        new Drive(xy(500, 0))
-                    })
+                new Log("Setup pushing"),
+                new SetArmAngle(0),
+                new SetArmLength(0),
+                new SetClaw(false),
+                new SeriesInstruction(new Instruction[]{
+                    new Drive(xy(0, 850)),
+                    new Drive(xy(500, 0))
+                })
             })
         ));
 
@@ -69,10 +69,10 @@ public class AutoCrusher extends UscOpMode {
             } else {
                 instructions.add(
                     new SeriesInstruction(new Instruction[]{
-                            new Log("Push sample" + (i + 1)),
-                            new Drive(xy(0, 300)),
-                            new Drive(xy(-1372, 0)),
-                            new Drive(xy(1372, 0))
+                        new Log("Push sample" + (i + 1)),
+                        new Drive(xy(0, 300)),
+                        new Drive(xy(-1372, 0)),
+                        new Drive(xy(1372, 0))
                     })
                 );
             }
@@ -84,33 +84,33 @@ public class AutoCrusher extends UscOpMode {
             instructions.add(
                 new SeriesInstruction(new Instruction[]{
                     new CombinedInstruction(new Instruction[]{
-                            new Log("Position to grab specimen #" + (i + 2)),
-                            new SetTurn(Math.PI),
-                            new SetArmAngle(5),
+                        new Log("Position to grab specimen #" + (i + 2)),
+                        new SetTurn(Math.PI),
+                        new SetArmAngle(5),
                     }),
 
                     new CombinedInstruction(new Instruction[]{
-                            new Log("Prepare for scoring specimen #" + (i + 2)),
-                            new SetClaw(true),
-                            new SetArmAngle(14.75),
-                            new SetTurn(Math.PI),
-                            new SetArmLength(7),
+                        new Log("Prepare for scoring specimen #" + (i + 2)),
+                        new SetClaw(true),
+                        new SetArmAngle(14.75),
+                        new SetTurn(Math.PI),
+                        new SetArmLength(7),
                     }),
 
                     new CombinedInstruction(new Instruction[]{
-                            new Log("Drive and score specimen #" + (i + 2)),
-                            new SeriesInstruction(new Instruction[]{
-                                    new Drive(xy(0, -1219 - (i * 50))),
-                                    new Drive(xy(457, 0)),
-                            }),
+                        new Log("Drive and score specimen #" + (i + 2)),
+                        new SeriesInstruction(new Instruction[]{
+                                new Drive(xy(0, -1219 - (i * 50))),
+                                new Drive(xy(457, 0)),
+                        }),
                     }),
 
                     new CombinedInstruction(new Instruction[]{
-                            new Log("Drive back and reset"),
-                            new SetClaw(false),
-                            new SetArmLength(0),
-                            new Drive(xy(0, -1220 + (i * 50))),
-                            new Drive(xy(-750, 0)),
+                        new Log("Drive back and reset"),
+                        new SetClaw(false),
+                        new SetArmLength(0),
+                        new Drive(xy(0, -1220 - (i * 50))),
+                        new Drive(xy(-750, 0)),
                     })
                 })
             );
