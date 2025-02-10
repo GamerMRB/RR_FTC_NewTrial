@@ -32,8 +32,10 @@ public class LinearPath extends Path {
             distance = acceleration * Math.pow(t, 2) / 2;
         } else if (t < accelerateTime + coastTime) {
             distance = accelerateDist + velocity * (t - accelerateTime);
-        } else {
+        } else if (t < 2 * accelerateTime + coastTime) {
             distance = diff.mag() - acceleration * Math.pow(t - (2*accelerateTime + coastTime), 2) / 2;
+        }else{
+            distance = diff.mag();
         }
         return diff.unit().mult(distance);
     }

@@ -32,9 +32,14 @@ public class DriveBetterTest extends UscOpMode {
 
         armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        resetIMU();
+
 
         executeInstructions(new Instruction[]{
-                new DriveBetter(new LinearPath(Vec2.xy(2000, 1000), 1500, 1000))
+//                new Wait((long) Math.pow(10, 9)),
+                new DriveBetter(
+                    new LinearPath(Vec2.xy(0, 2000), 200, 2000)
+                )
         });
     }
 }

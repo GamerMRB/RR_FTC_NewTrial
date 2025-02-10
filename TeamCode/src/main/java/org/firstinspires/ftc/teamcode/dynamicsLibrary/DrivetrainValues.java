@@ -13,10 +13,10 @@ public class DrivetrainValues {
         this.br = br;
     }
     public DrivetrainValues(Position pos){
-        fl = pos.disp.x + pos.disp.y - pos.angle;
-        fr = pos.disp.x - pos.disp.y + pos.angle;
-        bl = pos.disp.x - pos.disp.y - pos.angle;
-        br = pos.disp.x + pos.disp.y + pos.angle;
+        fl = pos.disp.x - pos.disp.y - pos.angle;
+        fr = pos.disp.x + pos.disp.y + pos.angle;
+        bl = pos.disp.x + pos.disp.y - pos.angle;
+        br = pos.disp.x - pos.disp.y + pos.angle;
     }
 
     public DrivetrainValues sub(DrivetrainValues values){
@@ -47,7 +47,7 @@ public class DrivetrainValues {
     public Position toPosition(){
         return Position.xya(
                 (fl + fr + bl + br) / 4,
-                (fl - fr - bl + br) / 4,
+                (-fl + fr + bl - br) / 4,
                 (-fl + fr - bl + br) / 4
         );
     }

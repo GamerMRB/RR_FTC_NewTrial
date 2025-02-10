@@ -199,10 +199,10 @@ public abstract class UscOpMode extends LinearOpMode {
     }
     public void pow(double forward, double side, double rot){
         pow(
-                forward + side - rot,
-                forward - side + rot,
                 forward - side - rot,
-                forward + side + rot
+                forward + side + rot,
+                forward + side - rot,
+                forward - side + rot
         );
     }
     public void pow(Vec2 disp, double rot){
@@ -228,10 +228,10 @@ public abstract class UscOpMode extends LinearOpMode {
     }
     public void vel(double forward, double side, double rot){
         vel(
-                forward + side - rot,
-                forward - side + rot,
                 forward - side - rot,
-                forward + side + rot
+                forward + side + rot,
+                forward + side - rot,
+                forward - side + rot
         );
     }
     public void vel(Vec2 disp, double rot){
@@ -250,8 +250,19 @@ public abstract class UscOpMode extends LinearOpMode {
                 backRight.getCurrentPosition()
         );
     }
+    public DrivetrainValues getVelocities(){
+        return new DrivetrainValues(
+                frontLeft.getVelocity(),
+                frontRight.getVelocity(),
+                backLeft.getVelocity(),
+                backRight.getVelocity()
+        );
+    }
     public double getYaw(){
-        return (imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS)).firstAngle;
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
+    public void resetIMU(){
+        imu.resetYaw();
     }
 
     protected void movementPowerDisable() {
@@ -325,6 +336,7 @@ public abstract class UscOpMode extends LinearOpMode {
                 done = instruction.update(this);
             }
             instruction.end(this);
+            sleep(10);
         }
     }
 }
