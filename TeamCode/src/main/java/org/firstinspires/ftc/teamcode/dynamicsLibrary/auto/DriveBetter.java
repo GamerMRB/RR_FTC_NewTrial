@@ -22,7 +22,7 @@ public class DriveBetter extends Instruction {
     }
     public void start(UscOpMode opMode){
         startAngle = opMode.getYaw();
-        lastEncoderReadings = opMode.getEncoderReadings();
+        lastEncoderReadings = opMode.getEncoderReadings().scale(1 / opMode.TICKS_PER_REVOLUTION * opMode.WHEEL_CIRCUMFERENCE);
         startTime = opMode.getRuntime();
         opMode.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         movementPID.reset();
@@ -37,7 +37,7 @@ public class DriveBetter extends Instruction {
         Vec2 targetVel = path.vel(now);
 
         // Update current position
-        DrivetrainValues currentEncoderReadings = opMode.getEncoderReadings();
+        DrivetrainValues currentEncoderReadings = opMode.getEncoderReadings().scale(1 / opMode.TICKS_PER_REVOLUTION * opMode.WHEEL_CIRCUMFERENCE);
         Position change = currentEncoderReadings.sub(lastEncoderReadings).toPosition();
         lastEncoderReadings = currentEncoderReadings;
         currentPos = currentPos.append(change);
