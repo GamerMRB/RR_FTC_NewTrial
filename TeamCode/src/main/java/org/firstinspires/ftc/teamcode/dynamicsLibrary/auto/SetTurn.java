@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
+import org.firstinspires.ftc.teamcode.dynamicsLibrary.Vec2;
 
 public class SetTurn extends Instruction {
     /**
@@ -24,21 +25,21 @@ public class SetTurn extends Instruction {
         deltaEpsilon = opMode.simplifyAngle(theta - opMode.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
 
         if (deltaEpsilon > 0) {
-            opMode.frontLeft.setPower(-0.5);
-            opMode.frontRight.setPower(0.5);
-            opMode.backLeft.setPower(-0.5);
-            opMode.backRight.setPower(0.5);
+            opMode.frontLeft.setPower(-0.5 * deltaEpsilon);
+            opMode.frontRight.setPower(0.5 * deltaEpsilon);
+            opMode.backLeft.setPower(-0.5 * deltaEpsilon);
+            opMode.backRight.setPower(0.5 * deltaEpsilon);
         } else {
-            opMode.frontLeft.setPower(0.5);
-            opMode.frontRight.setPower(-0.5);
-            opMode.backLeft.setPower(0.5);
-            opMode.backRight.setPower(-0.5);
+            opMode.frontLeft.setPower(0.5 * deltaEpsilon);
+            opMode.frontRight.setPower(-0.5 * deltaEpsilon);
+            opMode.backLeft.setPower(0.5 * deltaEpsilon);
+            opMode.backRight.setPower(-0.5 * deltaEpsilon);
         }
 
         opMode.telemetry.clear();
         opMode.telemetry.addData("Heading", deltaEpsilon);
         opMode.telemetry.update();
 
-        return Math.abs(deltaEpsilon) <= 0.2;
+        return Math.abs(deltaEpsilon) <= 0.01;
     }
 }
