@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
@@ -22,23 +23,8 @@ public class SetTurn extends Instruction {
 
     public boolean update(UscOpMode opMode) {
         deltaEpsilon = opMode.simplifyAngle(theta - opMode.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+        opMode.pow(0,0,deltaEpsilon);
 
-        if (deltaEpsilon > 0) {
-            opMode.frontLeft.setPower(-0.5);
-            opMode.frontRight.setPower(0.5);
-            opMode.backLeft.setPower(-0.5);
-            opMode.backRight.setPower(0.5);
-        } else {
-            opMode.frontLeft.setPower(0.5);
-            opMode.frontRight.setPower(-0.5);
-            opMode.backLeft.setPower(0.5);
-            opMode.backRight.setPower(-0.5);
-        }
-
-        opMode.telemetry.clear();
-        opMode.telemetry.addData("Heading", deltaEpsilon);
-        opMode.telemetry.update();
-
-        return Math.abs(deltaEpsilon) <= 0.2;
+        return deltaEpsilon == 0.01;
     }
 }
