@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.DrivetrainValues;
@@ -18,7 +20,7 @@ public class DriveBetter extends Instruction {
     double then;
     public DriveBetter(Path path){
         this.path = path;
-        movementPID = new PID2(20, 0, 0);
+        movementPID = new PID2(12, 0, 0);
     }
     public void start(UscOpMode opMode){
         startAngle = opMode.getYaw();
@@ -51,7 +53,17 @@ public class DriveBetter extends Instruction {
 //        opMode.telemetry.addLine(String.valueOf(opMode.getYaw()));
 //        opMode.telemetry.addLine(diff.toString());
 //        opMode.telemetry.update();
-        opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)));
+//        TelemetryPacket packet = new TelemetryPacket();
+//        packet.put("vel", opMode.getVelocities().toPosition().disp.x / opMode.TICKS_PER_REVOLUTION * opMode.WHEEL_CIRCUMFERENCE);
+//        packet.put("targetVel", targetVel.x);
+//        packet.put("pos", currentPos.disp.x);
+//        packet.put("targetPos", targetPos.x);
+
+
+//        FtcDashboard dash = FtcDashboard.getInstance();
+//        dash.sendTelemetryPacket(packet);
+
+        opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)).scale(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION));
 
         return false;
     }

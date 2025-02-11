@@ -44,6 +44,9 @@ public class Position {
     public Position difference(Position pos){
         return Position.va(disp.sub(pos.disp), angle - pos.angle);
     }
+    public Position scale(double scale){
+        return Position.va(disp.mult(scale), angle * scale);
+    }
     public String toString(){
         return String.format("%s, %s", disp, angle);
     }
