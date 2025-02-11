@@ -49,19 +49,19 @@ public class DriveBetter extends Instruction {
         Vec2 diff = targetPos.sub(currentPos.disp);
         movementPID.update(diff, dt);
 
-//        opMode.telemetry.addLine(diff.toString());
-//        opMode.telemetry.addLine(String.valueOf(opMode.getYaw()));
-//        opMode.telemetry.addLine(diff.toString());
-//        opMode.telemetry.update();
-//        TelemetryPacket packet = new TelemetryPacket();
+        opMode.telemetry.addLine(diff.toString());
+        opMode.telemetry.addLine(String.valueOf(opMode.getYaw()));
+        opMode.telemetry.addLine(diff.toString());
+        opMode.telemetry.update();
+        TelemetryPacket packet = new TelemetryPacket();
 //        packet.put("vel", opMode.getVelocities().toPosition().disp.x / opMode.TICKS_PER_REVOLUTION * opMode.WHEEL_CIRCUMFERENCE);
-//        packet.put("targetVel", targetVel.x);
+        packet.put("targetVel", targetVel.mag());
 //        packet.put("pos", currentPos.disp.x);
-//        packet.put("targetPos", targetPos.x);
+        packet.put("targetPos", targetPos.mag());
 
 
-//        FtcDashboard dash = FtcDashboard.getInstance();
-//        dash.sendTelemetryPacket(packet);
+        FtcDashboard dash = FtcDashboard.getInstance();
+        dash.sendTelemetryPacket(packet);
 
         opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)).scale(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION));
 
