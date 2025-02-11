@@ -24,6 +24,8 @@ public class LinearPath extends Path {
         accelerateDist = acceleration * Math.pow(accelerateTime, 2) / 2;
         coastDist = diff.mag() - 2 * accelerateDist;
         coastTime = coastDist / velocity;
+
+        totTime = 2*accelerateTime + coastTime;
     }
 
     public Vec2 pos(double t) {

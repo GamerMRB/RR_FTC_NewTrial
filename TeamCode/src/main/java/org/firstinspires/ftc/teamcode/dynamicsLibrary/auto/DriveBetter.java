@@ -65,6 +65,6 @@ public class DriveBetter extends Instruction {
 
         opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)).scale(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION));
 
-        return false;
+        return now > path.totTime;
     }
 }
