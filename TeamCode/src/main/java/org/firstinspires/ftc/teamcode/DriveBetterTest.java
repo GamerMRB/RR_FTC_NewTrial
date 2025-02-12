@@ -49,7 +49,7 @@ public class DriveBetterTest extends UscOpMode {
 
         executeInstructions(new Instruction[]{
                 new Wait((long) Math.pow(10, 9)),
-                new DriveEasier(1000, 0),
+                new DriveEasier(1000, 1000),
         });
     }
 }
