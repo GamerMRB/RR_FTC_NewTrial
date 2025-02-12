@@ -30,7 +30,7 @@ public class AutoCrusher extends UscOpMode {
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         ArrayList<Instruction> instructions = new ArrayList<>(Arrays.asList(
-            //The Strat
+            //First Sample
             new CombinedInstruction(new Instruction[]{
                 new Log("Go to bar and score sample"),
                 new SetClaw(true),
@@ -54,62 +54,50 @@ public class AutoCrusher extends UscOpMode {
                     new DriveEasier(0, -675),
                     new DriveEasier(675, 0)
                 })
+            }),
+
+            new SeriesInstruction(new Instruction[]{
+                new Log("Push sample " + 1),
+                new DriveEasier(0, -275),
+                new DriveEasier(-1100, 0),
+                new DriveEasier(1100, 0)
+            }),
+
+            new SeriesInstruction(new Instruction[]{
+                new Log("Push sample " + 2),
+                new DriveEasier(0, -275),
+                new DriveEasier(-1050, 0),
+                new Log("Drive to the specimen"),
+                new DriveEasier(0, 525),
             })
         ));
 
-        //Sample Setup
-        for (int i = 0; i <= 2; i++) {
-            if (i == 2) {
-                instructions.add(
-                    new SeriesInstruction(new Instruction[]{
-                        new Log("Push sample" + (i + 1)),
-                        new DriveEasier(0, -225),
-                        new DriveEasier(-1050, 0),
-                        new Log("Drive to the sample #2"),
-                        new DriveEasier(0, 610),
-                    })
-                );
-            }
-
-            if ((i == 0) || (i == 1)) {
-                instructions.add(
-                    new SeriesInstruction(new Instruction[]{
-                        new Log("Push sample" + (i + 1)),
-                        new DriveEasier(0, -275),
-                        new DriveEasier(-1100, 0),
-                        new DriveEasier(1100, 0)
-                    })
-                );
-            }
-        }
-
-        //Second, Third, Fourth, Fifth Sample
+        //Second, Third, and Fourth Sample
         for (int i = 0; i <= 3; i++) {
             instructions.add(
                 new SeriesInstruction(new Instruction[]{
                     new SetTurn(Math.PI),
                     new CombinedInstruction(new Instruction[]{
-                            new SetClaw(true),
                             new Log("Position to grab specimen # " + i),
-                            new SetArmLength(0),
-                            new SetArmAngle(6.5),
+                            new SetArmAngle(7),
                     }),
 
+                    new SetClaw(true),
+                    new SetArmAngle(13),
+
                     new CombinedInstruction(new Instruction[]{
-                            new Log("Prepare for scoring specimen # " + i),
-                            new SetTurn(0),
-                            new SetArmAngle(13),
-                            new SetArmLength(13),
-                            new Log("Drive and score specimen # " + i),
-                            new SeriesInstruction(new Instruction[]{
-                                new DriveEasier(457, 1000 + (i * 50)),
-                            }),
+                        new Log("Prepare for scoring specimen # " + i),
+                        new SetTurn(0),
+                        new SetArmLength(13),
+                        new Log("Drive and score specimen # " + i),
+                        new DriveEasier(300, 815 + (i * 10)),
                     }),
 
                     new CombinedInstruction(new Instruction[]{
                         new Log("Drive back and reset for specimen# " + (i + 1)),
                         new SetClaw(false),
-                        new DriveEasier(-500, -(1000 + (i * 50))),
+                        new SetArmLength(0),
+                        new DriveEasier(-300, -1 * (815 + (i * 10))),
                     })
                 })
             );
