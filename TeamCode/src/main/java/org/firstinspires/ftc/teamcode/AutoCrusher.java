@@ -39,7 +39,7 @@ public class AutoCrusher extends UscOpMode {
 
                 new SeriesInstruction(new Instruction[]{
                     new Wait(1000000000),
-                    new DriveEasier(600, 0),
+                    new DriveEasier(625, 0),
                 })
             }),
 
