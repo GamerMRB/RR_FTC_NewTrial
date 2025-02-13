@@ -180,6 +180,12 @@ public abstract class UscOpMode extends LinearOpMode {
         backLeft.setMode(runMode);
         backRight.setMode(runMode);
     }
+    public void setVelocityPIDFCoefficients(double p, double i, double d, double f){
+        frontLeft.setVelocityPIDFCoefficients(p, i, d, f);
+        frontRight.setVelocityPIDFCoefficients(p, i, d, f);
+        backLeft.setVelocityPIDFCoefficients(p, i, d, f);
+        backRight.setVelocityPIDFCoefficients(p, i, d, f);
+    }
 
 
     public void pow(double fl, double fr, double bl, double br){
