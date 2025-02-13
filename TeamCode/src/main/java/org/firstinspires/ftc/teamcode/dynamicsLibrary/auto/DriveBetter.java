@@ -66,13 +66,15 @@ public class DriveBetter extends Instruction {
         FtcDashboard dash = FtcDashboard.getInstance();
         dash.sendTelemetryPacket(packet);
 
-        opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)).scale(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION));
+        opMode.transVel = targetVel.add(movementPID.getPow()).rotate(-currentDirection).mult(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION);
+        opMode.updateVel();
 
         return now > path.totTime;
     }
 
     @Override
     public void end(UscOpMode opMode){
-        opMode.vel(0,0,0);
+        opMode.transVel = Vec2.zero;
+        opMode.updateVel();
     }
 }

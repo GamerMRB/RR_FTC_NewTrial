@@ -68,7 +68,8 @@ public abstract class UscOpMode extends LinearOpMode {
     public final double RIGHT_OPEN = 0.60;
     public final double MAX_VELOCITY = 1500;
 
-
+    public Vec2 transVel = Vec2.zero;
+    public double turnVel = 0;
 
     public void setUpHardware(){
         setUpDrivetrain();
@@ -245,6 +246,9 @@ public abstract class UscOpMode extends LinearOpMode {
     }
     public void vel(Position position){
         vel(position.disp, position.angle);
+    }
+    public void updateVel(){
+        vel(transVel, turnVel);
     }
 
 
