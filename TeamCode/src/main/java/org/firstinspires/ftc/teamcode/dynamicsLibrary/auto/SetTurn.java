@@ -21,7 +21,9 @@ public class SetTurn extends Instruction {
 
     public boolean update(UscOpMode opMode) {
         deltaEpsilon = opMode.simplifyAngle(theta - opMode.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        opMode.vel(0,0,deltaEpsilon * 2000);
+        double restoring = 4000;
+        double max = 2000;
+        opMode.vel(0,0,Math.max(-max, Math.min(max, deltaEpsilon * restoring)));
 
         return Math.abs(deltaEpsilon) <= 0.01;
     }

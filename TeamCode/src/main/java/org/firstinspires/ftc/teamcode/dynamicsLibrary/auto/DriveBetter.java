@@ -49,9 +49,12 @@ public class DriveBetter extends Instruction {
         Vec2 diff = targetPos.sub(currentPos.disp);
         movementPID.update(diff, dt);
 
-        opMode.telemetry.addLine(diff.toString());
-        opMode.telemetry.addLine(String.valueOf(opMode.getYaw()));
-        opMode.telemetry.addLine(diff.toString());
+//        opMode.telemetry.addLine(diff.toString());
+//        opMode.telemetry.addLine(String.valueOf(opMode.getYaw()));
+//        opMode.telemetry.addLine(diff.toString());
+        opMode.telemetry.addLine(String.valueOf(now));
+        opMode.telemetry.addLine(String.valueOf(path.totTime));
+        opMode.telemetry.addLine(String.valueOf(currentDirection));
         opMode.telemetry.update();
         TelemetryPacket packet = new TelemetryPacket();
         packet.put("vel", opMode.getVelocities().toPosition().disp.mag() / opMode.TICKS_PER_REVOLUTION * opMode.WHEEL_CIRCUMFERENCE);
@@ -66,5 +69,10 @@ public class DriveBetter extends Instruction {
         opMode.vel(Position.v(targetVel.add(movementPID.getPow()).rotate(-currentDirection)).scale(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION));
 
         return now > path.totTime;
+    }
+
+    @Override
+    public void end(UscOpMode opMode){
+        opMode.vel(0,0,0);
     }
 }
