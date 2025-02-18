@@ -12,7 +12,7 @@ public class SetTurn extends Instruction {
     double theta;
     double deltaEpsilon;
     public SetTurn(double theta) {
-        this.theta = theta + (Math.PI / 16);
+        this.theta = theta;
     }
 
     public void start(UscOpMode opMode) {
@@ -21,7 +21,7 @@ public class SetTurn extends Instruction {
 
     public boolean update(UscOpMode opMode) {
         deltaEpsilon = opMode.simplifyAngle(theta - opMode.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        double restoring = 4000;
+        double restoring = 2000;
         double max = 2000;
 
         opMode.turnVel = Math.max(-max, Math.min(max, deltaEpsilon * restoring));

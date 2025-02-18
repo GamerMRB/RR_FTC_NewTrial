@@ -26,12 +26,20 @@ public class AutoTester extends UscOpMode {
     public void runOpMode() {
         setUpHardware();
         waitForStart();
+        imu.resetYaw();
 
         armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         Instruction[] instructions = {
-               new SetTurn(-Math.PI)
+               new SetTurn(-Math.PI),
+                new SetTurn(0),
+                new SetTurn(-Math.PI),
+                new SetTurn(0),
+                new SetTurn(-Math.PI),
+                new SetTurn(0),
+                new SetTurn(-Math.PI),
+                new SetTurn(0),
         };
 
         executeInstructions(instructions);
