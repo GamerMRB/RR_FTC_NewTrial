@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
@@ -9,6 +10,9 @@ public class SetArmAngle extends Instruction{
      * Angle to go
      */
     double theta;
+    ElapsedTime e;
+    long startTime = System.nanoTime();
+
     public SetArmAngle(double theta) {
         this.theta = theta;
     }
@@ -20,6 +24,9 @@ public class SetArmAngle extends Instruction{
     }
 
     public boolean update(UscOpMode opMode) {
-        return !opMode.armPivot.isBusy();
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double elapsedTimeInMs = elapsedTime / 1_000_000.0;
+        return !opMode.armPivot.isBusy() | elapsedTimeInMs > 1000;
     }
 }

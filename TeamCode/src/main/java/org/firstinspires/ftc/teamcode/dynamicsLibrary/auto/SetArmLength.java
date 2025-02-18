@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.dynamicsLibrary.auto;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetArmLength extends Instruction{
     int targetPos;
+    ElapsedTime e;
+    long startTime = System.nanoTime();
+
     public SetArmLength(int length){
         targetPos = length;
     }
@@ -15,6 +19,9 @@ public class SetArmLength extends Instruction{
         opMode.armSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public boolean update(UscOpMode opMode){
-        return !opMode.armSlide.isBusy();
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double elapsedTimeInMs = elapsedTime / 1_000_000.0;
+        return !opMode.armSlide.isBusy() | elapsedTimeInMs > 1000;
     }
 }

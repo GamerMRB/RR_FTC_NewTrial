@@ -12,7 +12,7 @@ public class SetTurn extends Instruction {
     double theta;
     double deltaEpsilon;
     public SetTurn(double theta) {
-        this.theta = theta;
+        this.theta = theta + (Math.PI / 16);
     }
 
     public void start(UscOpMode opMode) {
