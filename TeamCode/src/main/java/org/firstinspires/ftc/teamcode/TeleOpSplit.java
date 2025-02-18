@@ -96,7 +96,7 @@ public class TeleOpSplit extends UscOpMode {
             }else{
                 rightPressed = false;
             }
-            if(gamepad1.a){
+            if(gamepad2.x){
                 if(!toggledArm){
                     armUp = !armUp;
                     toggledArm = true;
@@ -104,7 +104,7 @@ public class TeleOpSplit extends UscOpMode {
             }else{
                 toggledArm = false;
             }
-            if(gamepad1.b){
+            if(gamepad2.y){
                 if(!toggledClaw){
                     clawClosed = !clawClosed;
                     toggledClaw = true;
