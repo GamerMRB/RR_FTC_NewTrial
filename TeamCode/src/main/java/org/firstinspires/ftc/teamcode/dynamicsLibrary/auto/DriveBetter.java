@@ -69,7 +69,7 @@ public class DriveBetter extends Instruction {
         opMode.transVel = targetVel.add(movementPID.getPow()).rotate(-currentDirection).mult(1 / opMode.WHEEL_CIRCUMFERENCE * opMode.TICKS_PER_REVOLUTION);
         opMode.updateVel();
 
-        return now > path.totTime;
+        return now > path.totTime | (path.totTime - now) <= 0.1;
     }
 
     @Override
