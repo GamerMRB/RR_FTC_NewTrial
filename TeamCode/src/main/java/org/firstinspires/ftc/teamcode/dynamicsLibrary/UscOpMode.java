@@ -82,12 +82,12 @@ public abstract class UscOpMode extends LinearOpMode {
     public void setUpImu() {
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(
-                new IMU.Parameters(
-                        new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                                RevHubOrientationOnRobot.UsbFacingDirection.UP
-                        )
+            new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT
                 )
+            )
         );
     }
 
