@@ -4,7 +4,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.UscOpMode;
 
 public class SetClaw extends Instruction {
     /**
-     * true = closing claw, while false = opening claw
+     * true = opening claw, while false = closing claw
      */
     boolean pos;
     double startTime;

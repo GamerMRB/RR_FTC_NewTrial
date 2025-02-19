@@ -33,9 +33,9 @@ public class AutoCrusher extends UscOpMode {
             //First Sample
             new CombinedInstruction(new Instruction[]{
                 new Log("Go to bar and score sample"),
-                new SetClaw(true),
+                new SetClaw(false),
                 new SetArmAngle(13),
-                new SetArmLength(13),
+                new SetArmLength(15),
 
                 new SeriesInstruction(new Instruction[]{
                     new Wait(1000000000),
@@ -44,29 +44,29 @@ public class AutoCrusher extends UscOpMode {
             }),
 
             new CombinedInstruction(new Instruction[]{
-                new SetClaw(false),
+                new SetClaw(true),
                 new SetArmLength(0),
 
                 new Log("Setup pushing"),
                 new SetArmAngle(0),
                 new SeriesInstruction(new Instruction[]{
                     new Wait(750000000),
-                    new DriveEasier(0, -675),
+                    new DriveEasier(0, -680),
                     new DriveEasier(675, 0)
                 })
             }),
 
             new SeriesInstruction(new Instruction[]{
                 new Log("Push sample " + 1),
-                new DriveEasier(0, -275),
-                new DriveEasier(-1200, 0),
-                new DriveEasier(1200, 0)
+                new DriveEasier(0, -225),
+                new DriveEasier(-1100, 0),
+                new DriveEasier(1100, 0)
             }),
 
             new SeriesInstruction(new Instruction[]{
                 new Log("Push sample " + 2),
-                new DriveEasier(0, -275),
-                new DriveEasier(-1300, 0),
+                new DriveEasier(0, -250),
+                new DriveEasier(-1125, 0),
                 new Log("Drive to the specimen"),
                 new DriveEasier(0, 475),
             })
@@ -77,7 +77,6 @@ public class AutoCrusher extends UscOpMode {
             if (i == 0) {
                 instructions.add(
                     new SeriesInstruction(new Instruction[]{
-                        new SetTurn(Math.PI / 2),
                         new SetTurn(Math.PI),
                         new CombinedInstruction(new Instruction[]{
                                 new Log("Position to grab specimen # " + i),
@@ -85,24 +84,22 @@ public class AutoCrusher extends UscOpMode {
                                 new Wait((long) ((long) 5 * Math.pow(10, 8)))
                         }),
 
-                        new SetClaw(true),
-                        new SetArmAngle(14),
-                        new SetTurn(-Math.PI / 2),
+                        new SetClaw(false),
+                        new SetArmAngle(14.5),
                         new SetTurn(0),
-                        new DriveEasier(0,100),
 
                         new CombinedInstruction(new Instruction[]{
                                 new Log("Prepare for scoring specimen # " + i),
-                                new SetArmLength(10),
+                                new SetArmLength(16),
                                 new Log("Drive and score specimen # " + i),
-                                new DriveEasier(600, 1350 + (i * 10))
+                                new DriveEasier(565, 1250)
                         }),
 
                         new CombinedInstruction(new Instruction[]{
                                 new Log("Drive back and reset for specimen# " + (i + 1)),
-                                new SetClaw(false),
-                                new SetArmLength(3),
-                                new DriveEasier(-600, -1 * (1375 + (i * 10))),
+                                new SetClaw(true),
+                                new SetArmLength(0),
+                                new DriveEasier(-500, -1275),
                         }),
                     })
                 );
@@ -111,7 +108,6 @@ public class AutoCrusher extends UscOpMode {
             if (i == 1 | i == 2){
                 instructions.add(
                     new SeriesInstruction(new Instruction[]{
-                        new SetTurn(Math.PI / 2),
                         new SetTurn(Math.PI),
                         new CombinedInstruction(new Instruction[]{
                                 new Log("Position to grab specimen # " + i),
@@ -119,27 +115,24 @@ public class AutoCrusher extends UscOpMode {
                                 new Wait((long) ((long) 5 * Math.pow(10, 8)))
                         }),
 
-                        new CombinedInstruction(new Instruction[]{
-                                new SetClaw(true),
-                                new SetArmAngle(14),
-                                new DriveEasier(0,i * 600),
-                        }),
-
-
-                        new SetTurn(-Math.PI / 2),
+                        new SetClaw(false),
+                        new SetArmAngle(14),
                         new SetTurn(0),
-                        new SetArmLength(10),
-
-                        new DriveEasier(600,0),
-                        new DriveEasier(-600,0),
 
                         new CombinedInstruction(new Instruction[]{
-                                new Log("Drive back and reset for specimen# " + (i + 1)),
-                                new SetClaw(false),
-                                new SetArmLength(3),
+                            new SetArmLength(16),
+                            new DriveEasier(450,(i * 75) + 750),
                         }),
 
-                        new DriveEasier(0, -i * 600)
+                        new DriveEasier(75,0),
+
+                        new CombinedInstruction(new Instruction[]{
+                            new Log("Drive back and reset for specimen# " + (i + 1)),
+                            new SetClaw(true),
+                            new SetArmLength(0),
+                            new DriveEasier(-475,-((i * 75) + 750))
+                        }),
+                        new DriveEasier(-20,0)
                     })
                 );
             }
