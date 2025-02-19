@@ -67,6 +67,14 @@ public abstract class UscOpMode extends LinearOpMode {
     public final double LEFT_OPEN = 0.45;
     public final double RIGHT_OPEN = 0.60;
     public final double MAX_VELOCITY = 1500;
+    public final double ARM_MASS = 1.65; // kilograms
+    public final double GRAVITY= 9.80665;
+    public final double TICKS_PER_PI = 2700;
+    public final double MAX_ARM_LENGTH = 3000;
+    public final double ARM_RANGE_METERS = 0.7435;
+    public final double ARM_RANGE_TICKS = 3000;
+    public final double ARM_PIVOT_ZERO = 593;
+    public final double ARM_MIN_METERS= 0.346;
 
     public Vec2 transVel = Vec2.zero;
     public double turnVel = 0;
