@@ -54,7 +54,7 @@ public class AutoCrusher extends UscOpMode {
                     new DriveEasier(0, -680),
                     new DriveEasier(675, 0)
                 })
-            }),
+            }),//
 
             new SeriesInstruction(new Instruction[]{
                 new Log("Push sample " + 1),
