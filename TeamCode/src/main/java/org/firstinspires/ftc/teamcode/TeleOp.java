@@ -54,7 +54,7 @@ public class TeleOp extends UscOpMode {
             else {
                 armSlide.setVelocity(0.0);
             }
-            if ((this.gamepad2.y || this.gamepad2.dpad_up) && (armSlide.getCurrentPosition() - armZero < 2180)){ // Expand
+            if ((this.gamepad2.y || this.gamepad2.dpad_up) && ((armSlide.getCurrentPosition() - armZero) *  Math.cos((Math.PI/TICKS_PER_PI) * (armPivot.getCurrentPosition() - ARM_PIVOT_ZERO)) < 2180)){ // Expand
                 armSlide.setVelocity(3500);
             }
             else {
