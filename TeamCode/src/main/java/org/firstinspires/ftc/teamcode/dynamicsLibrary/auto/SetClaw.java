@@ -23,6 +23,6 @@ public class SetClaw extends Instruction {
     }
 
     public boolean update(UscOpMode opMode) {
-        return (opMode.getRuntime() - startTime)  >= 0.5;
+        return (opMode.getRuntime() - startTime) >= 0.75;
     }
 }
