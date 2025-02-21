@@ -66,10 +66,10 @@ public class AutoCrusher2_0 extends UscOpMode {
             new SeriesInstruction(new Instruction[]{
                 new Log("Push sample 2"),
                 new DriveEasier(0, -250),
-                new DriveEasier(-1000, 0),
+                new DriveEasier(-1125, 0),
                 new Log("Drive to the specimen"),
                 new CombinedInstruction(new Instruction[]{
-                    new DriveEasier(0, 475),
+                    new DriveEasier(0, 420),
                     new SetTurn(Math.PI),
                 })
             }),
@@ -83,25 +83,24 @@ public class AutoCrusher2_0 extends UscOpMode {
                 }),
 
                 new SetClaw(false),
-                new SetArmAngle(14.5),
+                new SetArmAngle(15),
 
                 new CombinedInstruction(new Instruction[]{
                     new Log("Prepare for scoring specimen #2"),
                     new SetArmLength(13),
                     new Log("Drive and score specimen #2"),
-                    new DriveEasier(550, 1000),
+                    new DriveEasier(575, 1050),
                     new SetTurn(0),
                 }),
 
                 new CombinedInstruction(new Instruction[]{
                     new Log("Drive back and reset for specimen #3"),
                     new SetClaw(true),
-                    new SetArmLength(0),
-                    new DriveEasier(-600, -1000),
+                    new SetArmLength(6),
+                    new DriveEasier(-589, -1000),
                     new SetTurn(Math.PI),
                 })
             })
-
         ));
 
         //Third and Fourth Sample
@@ -118,16 +117,16 @@ public class AutoCrusher2_0 extends UscOpMode {
                     new SetArmAngle(((i - 1) * .5) + 14),
 
                     new CombinedInstruction(new Instruction[]{
-                        new SetArmLength(16),
-                        new DriveEasier(425, (i * 100) + 750),
+                        new SetArmLength(16 - (i - 1)),
+                        new DriveEasier(435, (i * 100) + 750),
                         new SetTurn(0),
                     }),
 
                     new CombinedInstruction(new Instruction[]{
                         new Log("Drive back and reset for specimen# " + (i + 3)),
                         new SetClaw(true),
-                        new SetArmLength(0),
-                        new DriveEasier(-470, -((i * 100) + 750)),
+                        new SetArmLength(6),
+                        new DriveEasier(-510, -((i * 100) + 750)),
                         new SetTurn(Math.PI)
                     })
                 })
