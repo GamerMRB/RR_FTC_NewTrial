@@ -31,17 +31,21 @@ public class AutoCrusher extends UscOpMode {
 
         ArrayList<Instruction> instructions = new ArrayList<>(Arrays.asList(
             //First Sample
-            new CombinedInstruction(new Instruction[]{
-                new Log("Go to bar and score sample"),
-                new SetClaw(false),
-                new SetArmAngle(13),
-                new SetArmLength(16),
 
-                new SeriesInstruction(new Instruction[]{
-                    new Wait(1000000000),
-                    new DriveEasier(625, 0),
-                })
-            }),
+                new CombinedInstruction(new Instruction[]{
+                    new SetClaw(false),
+                    new SetArmLength(3),
+                    new SeriesInstruction(new Instruction[]{
+                            new Wait(200000000),
+                            new Log("Go to bar and score sample"),
+                            new SetArmAngle(14),
+                            new SetArmLength(19),
+                            new SeriesInstruction(new Instruction[]{
+                                    new Wait(1500000000),
+                                    new DriveEasier(625, 0),
+                            })
+                    }),
+                }),
 
             new CombinedInstruction(new Instruction[]{
                 new SetClaw(true),
@@ -54,7 +58,7 @@ public class AutoCrusher extends UscOpMode {
                     new DriveEasier(0, -680),
                     new DriveEasier(675, 0)
                 })
-            }),//
+            }),
 
             new SeriesInstruction(new Instruction[]{
                 new Log("Push sample " + 1),
