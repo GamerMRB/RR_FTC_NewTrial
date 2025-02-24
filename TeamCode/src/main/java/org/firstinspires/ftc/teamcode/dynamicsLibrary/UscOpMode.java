@@ -62,8 +62,8 @@ public abstract class UscOpMode extends LinearOpMode {
     public final Vec3 pivotPos = Vec3.xyz(0, 0, 13.25);
     public final double INITIAL_ARM_ANGLE = - Math.PI/4;
     public final double MIN_ARM_LENGTH = 10.375;
-    public final double LEFT_CLOSE = 0.45;
-    public final double RIGHT_CLOSE = 0.3 ;
+    public final double LEFT_CLOSE = 0.40;
+    public final double RIGHT_CLOSE = 0.25 ;
     public final double LEFT_OPEN = 0.75;
     public final double RIGHT_OPEN = 0.60;
     public final double MAX_VELOCITY = 1500;

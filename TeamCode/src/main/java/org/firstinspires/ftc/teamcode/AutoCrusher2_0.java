@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Wait;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 @SuppressWarnings("unused")
 @Autonomous
@@ -28,7 +29,7 @@ public class AutoCrusher2_0 extends UscOpMode {
         armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        ArrayList<Instruction> instructions = new ArrayList<>(List.of(
+        ArrayList<Instruction> instructions = new ArrayList<>(Arrays.asList(
             new CombinedInstruction(new Instruction[]{
                 new DriveEasier(1230, -400),
                 new SetTurn(Math.PI),
