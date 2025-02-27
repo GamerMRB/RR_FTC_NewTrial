@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.CombinedInstruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Drive;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Instruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.Log;
+import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.MovementRR;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SeriesInstruction;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmAngle;
 import org.firstinspires.ftc.teamcode.dynamicsLibrary.auto.SetArmLength;
@@ -30,13 +31,13 @@ public class AutoTester extends UscOpMode {
         vel(100, 0, 0);
         sleep(100000000);
 
-//        armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        Instruction[] instructions = {
-//               new SetTurn(-Math.PI)
-//        };
-//
-//        executeInstructions(instructions);
+        armPivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        Instruction[] instructions = {
+               new MovementRR(50,50,Math.PI/2)
+        };
+
+        executeInstructions(instructions);
     }
 }
